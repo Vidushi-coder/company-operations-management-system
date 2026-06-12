@@ -169,5 +169,3 @@ Current Status: Requirement Analysis & Project Planning
 ## Author
 
 Vidushi Gupta
-
-Software Development Internship Project
