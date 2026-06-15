@@ -72,16 +72,21 @@ The Company Operations Management System addresses these challenges by providing
 * Task Monitoring
 * Leave Reports
 
+### Notification System
+
+* Task Assigned
+* Leave Approved
+* Leave Rejected
+* Project Assignment
+
 ---
 
 ## Technology Stack
 
 ### Frontend
 
-* HTML5
-* CSS3
-* Bootstrap 5
-* JavaScript (ES6)
+* React
+* Tailwind CSS
 
 ### Backend
 
@@ -102,6 +107,19 @@ The Company Operations Management System addresses these challenges by providing
 * Git
 * GitHub
 
+### Deployment
+
+* Vercel (frontend)
+* Render (backend)
+
+### Documentation
+
+* Software Requirements Specification (SRS)
+* Figma (UI Design)
+* ER Diagram
+* Test Cases
+* User Manual
+
 ---
 
 ## Planned Project Architecture
@@ -120,49 +138,55 @@ The application will follow a modular architecture with separate layers for:
 
 ### Phase 1
 
-* Requirement Analysis
-* Project Planning
-* System Design
+- Requirement Analysis
+- Project Planning
+- System Design
 
 ### Phase 2
 
-* Database Design
-* ER Diagram Creation
-* UI Wireframing
+- Database Design
+- ER Diagram Creation
+- UI Wireframing
 
 ### Phase 3
 
-* Authentication Module Development
+- Authentication & Authorization Module
+- JWT Authentication
+- Role-Based Access Control
 
 ### Phase 4
 
-* Employee Management Module
+- Employee Management Module
 
 ### Phase 5
 
-* Project Management Module
+- Project Management Module
 
 ### Phase 6
 
-* Task Management Module
+- Task Management Module
 
 ### Phase 7
 
-* Leave Management Module
+- Leave Management Module
 
 ### Phase 8
 
-* Dashboard & Reporting
+- Notification System
+- Dashboard & Analytics
 
 ### Phase 9
 
-* Testing & Deployment
+- Testing
+- Bug Fixing
+- Deployment
+- Final Documentation Review
 
 ---
 
 ## Project Status
 
-Current Status: Requirement Analysis & Project Planning
+Current Status: System Design & Database Planning
 
 ---
 

@@ -124,3 +124,10 @@ Displays a summarized overview of the system's data, personalized based on the l
 
 **Users:** All roles (content varies by role)  
 **Key Actions:** View Summary Cards, View Recent Activity, View Reports (Admin only)
+
+### 7. Notification System
+
+Automatically generates notifications for key system events such as task assignments, project assignments, and leave request updates. Notifications are displayed to the relevant user in real time so they are always informed of actions that affect them.
+
+**Users:** All roles  
+**Key Actions:** Receive Task Assignment Notification, Receive Leave Approval Notification, Receive Leave Rejection Notification, Receive Project Assignment Notification

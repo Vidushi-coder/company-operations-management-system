@@ -112,6 +112,17 @@ The Leave Requests Collection stores all leave applications submitted by employe
 - `reviewedBy` → references the userId of the Admin or Manager who approved or rejected the request
 - `appliedAt` → timestamp of when the leave request was submitted
 
+### Notifications Collection
+
+The Notifications Collection stores all system generated notifications triggered by key events such as task assignments, project assignments, and leave request updates. Each notification belongs to one specific user.
+
+- `userId` → references the user who should receive this notification
+- `type` → category of notification: Task Assigned / Leave Approved /
+  Leave Rejected / Project Assignment
+- `message` → the readable notification text shown to the user
+- `isRead` → whether the user has read this notification: true / false
+- `createdAt` → timestamp of when the notification was generated
+
 ---
 
 ## Relationships Between Collections
@@ -123,6 +134,8 @@ The Leave Requests Collection stores all leave applications submitted by employe
 - Each **Leave Request** belongs to exactly one **Employee** through `employeeId`
 - Each **Leave Request** is reviewed by one **User** (Admin or Manager) through `reviewedBy`
 - Each **Project** and each **Task** is created by one **User** through `createdBy`
+- Each **Notification** belongs to exactly one User through `userId`
+- **Notifications** are automatically created when a Task is assigned,a Leave Request is reviewed, or an Employee is added to a Project
 
 ---
 
@@ -141,3 +154,7 @@ These are important questions about how data behaves when actions are performed 
 - **When a Leave Request is pending** → if the employee's account is deactivated before it is reviewed, should the request remain visible to the manager for review or be automatically cancelled?
 
 - **Duplicate Leave Requests** → should the system prevent an employee from applying for leave on dates that already have an approved or pending request?
+
+- **When a notification is read** → the isRead field should update to true. Should read notifications be permanently stored or deleted after a certain period?
+
+- **When a User is deleted** → should all their notifications be deleted along with their account or kept for record purposes?

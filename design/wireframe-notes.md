@@ -63,13 +63,14 @@
 
 **Summary Cards (content varies by role):**
 
-| Summary Card        | Admin | Manager | Employee |
-|---------------------|-------|---------|----------|
-| Total Employees     | ✅    | ❌      | ❌       |
-| Active Projects     | ✅    | ✅      | ✅       |
-| Pending Leave Requests | ✅ | ✅      | ❌       |
-| My Assigned Tasks   | ❌    | ❌      | ✅       |
-| My Pending Leave    | ❌    | ❌      | ✅       |
+| Summary Card             | Admin | Manager | Employee |
+|--------------------------|-------|---------|----------|
+| Total Employees          | ✅    | ❌      | ❌       |
+| Active Projects          | ✅    | ✅      | ✅       |
+| Pending Leave Requests   | ✅    | ✅      | ❌       |
+| My Assigned Tasks        | ❌    | ❌      | ✅       |
+| My Pending Leave         | ❌    | ❌      | ✅       |
+| Unread Notifications     | ✅    | ✅      | ✅       |
 
 **Components:**
 - Top navbar with app name on the left and logged-in user name with logout button on the right
@@ -290,3 +291,95 @@
 - Employees cannot see other employees' leave records
 - Managers can approve or reject leave for their team members
 - Admin can approve or reject all leave requests across the organization
+
+---
+
+## 7. Notification Panel
+
+**Layout:**
+
+```
++-------------------+------------------------------------------+
+
+|                   |  TOP NAVBAR                              |
+
+|   SIDEBAR NAV     |  [ App Name ]    [ 🔔 3 ]  [ User | Logout ] |
+
+|                   +------------------------------------------+
+
+|                   |                                          |
+
+|                   |   NOTIFICATIONS DROPDOWN (on bell click):|
+
+|                   |   +------------------------------------+ |
+
+|                   |   | 🔵 Task "Fix Login Bug" assigned   | |
+
+|                   |   |    to you — 2 mins ago             | |
+
+|                   |   +------------------------------------+ |
+
+|                   |   | 🟢 Your leave request approved     | |
+
+|                   |   |    by Manager — 1 hour ago         | |
+
+|                   |   +------------------------------------+ |
+
+|                   |   | 🔵 Added to Project "CRM App"      | |
+
+|                   |   |    — Yesterday                     | |
+
+|                   |   +------------------------------------+ |
+
+|                   |   |        [ View All ]                | |
+
+|                   |   +------------------------------------+ |
+
++-------------------+------------------------------------------+
+```
+
+**Components:**
+- Bell icon in the top navbar with a badge showing unread notification count
+- Dropdown panel appears when the bell icon is clicked
+- Each notification shows: message, type indicator colour, and time ago
+- Mark as read on click (notification becomes lighter/grey)
+- View All link at the bottom navigates to a full notifications page
+
+**Notification Type Colour Indicators:**
+- Task Assigned → Blue
+- Leave Approved → Green
+- Leave Rejected → Red
+- Project Assignment → Purple
+
+**Full Notifications Page Layout:**
+
+```
++-------------------+------------------------------------------+
+
+|                   |  Notifications   [ Mark All as Read ]    |
+
+|   SIDEBAR NAV     +------------------------------------------+
+
+|                   |  [ All ] [ Unread ] [ Read ]             |
+
+|                   |  (tab filters)                           |
+
+|                   +------------------------------------------+
+
+|                   |  TYPE  | MESSAGE            | TIME       |
+
+|                   |  ----- | ------------------ | ---------- |
+
+|                   |  🔵    | Task assigned...   | 2 mins ago |
+
+|                   |  🟢    | Leave approved...  | 1 hr ago   |
+
+|                   |  🟣    | Added to project.. | Yesterday  |
+
++-------------------+------------------------------------------+
+```
+
+**Notes:**
+- Notifications are user specific, each user only sees their own
+- Unread notifications are highlighted, read ones are greyed out
+- Notification count badge on bell icon disappears when all are read
