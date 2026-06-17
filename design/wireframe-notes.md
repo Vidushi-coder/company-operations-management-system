@@ -383,3 +383,80 @@
 - Notifications are user specific, each user only sees their own
 - Unread notifications are highlighted, read ones are greyed out
 - Notification count badge on bell icon disappears when all are read
+
+---
+
+## 8. Employee Dashboard
+
+**Layout:**
+
+```
++-------------------+------------------------------------------+
+
+|                   |  TOP NAVBAR                              |
+
+|   SIDEBAR NAV     |  [ App Name ]  [ 🔔 2 ]  [ Employee ▼ ] |
+
+|                   +----------+----------+----------+---------+
+
+|   - Dashboard     |  CARD 1  |  CARD 2  |  CARD 3  | CARD 4  |
+
+|   - Projects      |  Active  |  My Tasks|  Pending | Unread  |
+
+|   - Tasks         |  Projects|  Today   |  Leave   | Notif.  |
+
+|   - Leave         +----------+----------+----------+---------+
+
+|                   |                      |                   |
+
+|                   |  MY ASSIGNED TASKS   |  PROFILE SUMMARY  |
+
+|                   |  Task A  🔴 High     |  Name: .....      |
+
+|                   |  Task B  🟡 Medium   |  Dept: .....      |
+
+|                   |  Task C  🟢 Low      |  Role: Employee   |
+
+|                   |  [ View All Tasks ]  |  Status: Active   |
+
+|                   |                      |  [ View Profile ] |
+
+|                   +----------------------+-------------------+
+
+|                   |                                          |
+
+|                   |  MY PROJECTS                             |
+
+|                   |  Project Alpha — 🟢 Active — Dec 2026   |
+
+|                   |  Project Beta  — 🟡 On Hold — Jan 2027  |
+
+|                   +------------------------------------------+
+
+|                   |                                          |
+
+|                   |  NOTIFICATIONS                           |
+
+|                   |  🔵 Task assigned to you — 2 mins ago   |
+
+|                   |  🟢 Leave request approved — 1 hr ago   |
+
+|                   |  [ View All Notifications ]              |
+
++-------------------+------------------------------------------+
+```
+
+**Components:**
+- Sidebar with only Employee relevant links — no Reports, no Employees
+- Navbar with notification bell and user dropdown
+- Four summary cards: Active Projects, My Tasks Today, Pending Leave, 
+  Unread Notifications
+- My Assigned Tasks section with priority badges and due dates
+- Profile Summary section with basic details and View Profile link
+- My Projects section showing assigned projects with status and deadline
+- Notifications section showing latest notifications
+
+**Notes:**
+- All data shown is personal to the logged in employee only
+- Employee cannot see Reports or Employee Management in the sidebar
+- Sidebar has fewer links compared to Admin and Manager view
