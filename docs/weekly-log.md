@@ -1,9 +1,9 @@
 # Week 4 Progress Report
 
-**Project Name:** Company Operations Management System
-**Author:** Vidushi Gupta
-**Last Updated:** June 2026
-**Purpose:** Track weekly progress, key decisions, and major milestones across the project timeline.
+**Project Name:** Company Operations Management System  
+**Author:** Vidushi Gupta  
+**Last Updated:** June 2026  
+**Purpose:** Track weekly progress, key decisions, and major milestones across the project timeline.  
 
 ## Duration: 08 June 2026 – 14 June 2026
 
@@ -58,8 +58,6 @@ The objective of this week was to initiate the Company Operations Management Sys
 ### Outcome
 
 By the end of the week, the project requirements, system architecture, and database planning were completed, providing a solid foundation for the design and development phases.
-
----
 
 # Week 5 Progress Report
 
@@ -128,5 +126,3 @@ The objective of this week was to complete the system design phase and begin the
 ### Outcome
 
 By the end of the week, the complete design phase was finalized and the authentication foundation of the application was successfully established. The project is now ready to move into module development, beginning with Employee Management and Project Management in the upcoming week.
-
----
