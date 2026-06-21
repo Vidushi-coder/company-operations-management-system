@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -6,9 +9,35 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // API call logic comes in Step 7
+    setError('');
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password
+      });
+
+      const { token, user } = response.data;
+      login(user, token);
+
+      // Redirect based on role
+      if (user.role === 'Admin') {
+        navigate('/admin-dashboard');
+      } else if (user.role === 'Manager') {
+        navigate('/manager-dashboard');
+      } else {
+        navigate('/employee-dashboard');
+      }
+
+    } catch (err) {
+      const message = err.response?.data?.message || 'Something went wrong. Please try again.';
+      setError(message);
+    }
   };
 
   return (
