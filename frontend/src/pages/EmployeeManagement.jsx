@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import DashboardLayout from '../layouts/DashboardLayout';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import EmployeeFormModal from '../components/EmployeeFormModal';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 function EmployeeManagement() {
   const { user } = useAuth();
@@ -12,6 +15,15 @@ function EmployeeManagement() {
   const [search, setSearch] = useState('');
   const [department, setDepartment] = useState('');
   const [status, setStatus] = useState('');
+
+  const navigate = useNavigate();
+
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState('add');
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchEmployees = async () => {
     setLoading(true);
@@ -38,6 +50,36 @@ function EmployeeManagement() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     fetchEmployees();
+  };
+
+  const handleAddClick = () => {
+    setFormMode('add');
+    setSelectedEmployee(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEditClick = (emp) => {
+    setFormMode('edit');
+    setSelectedEmployee(emp);
+    setIsFormOpen(true);
+  };
+
+  const handleDeleteClick = (emp) => {
+    setDeleteTarget(emp);
+  };
+
+  const handleConfirmDelete = async () => {
+    setDeleting(true);
+    try {
+      await api.delete(`/employees/${deleteTarget._id}`);
+      setDeleteTarget(null);
+      fetchEmployees();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to delete employee');
+      setDeleteTarget(null);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -85,6 +127,7 @@ function EmployeeManagement() {
         {user?.role === 'Admin' && (
           <button
             type="button"
+            onClick={handleAddClick}
             className="ml-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md"
           >
             + Add Employee
@@ -121,18 +164,17 @@ function EmployeeManagement() {
                   <td className="px-4 py-3 text-sm text-gray-200">{emp.department}</td>
                   <td className="px-4 py-3 text-sm text-gray-200">{emp.userId?.role}</td>
                   <td className="px-4 py-3 text-sm">
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                      emp.status === 'Active' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
-                    }`}>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${emp.status === 'Active' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
+                      }`}>
                       {emp.status}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-sm space-x-2">
-                    <button className="text-blue-400 hover:text-blue-300">👁</button>
+                    <button onClick={() => navigate(`/employees/${emp._id}`)} className="text-blue-400 hover:text-blue-300">👁</button>
                     {user?.role === 'Admin' && (
                       <>
-                        <button className="text-yellow-400 hover:text-yellow-300">✏</button>
-                        <button className="text-red-400 hover:text-red-300">🗑</button>
+                        <button onClick={() => handleEditClick(emp)} className="text-yellow-400 hover:text-yellow-300">✏</button>
+                        <button onClick={() => handleDeleteClick(emp)} className="text-red-400 hover:text-red-300">🗑</button>
                       </>
                     )}
                   </td>
@@ -142,6 +184,23 @@ function EmployeeManagement() {
           </tbody>
         </table>
       </div>
+
+      <EmployeeFormModal
+        isOpen={isFormOpen}
+        mode={formMode}
+        employee={selectedEmployee}
+        onClose={() => setIsFormOpen(false)}
+        onSuccess={fetchEmployees}
+      />
+
+      <ConfirmDeleteModal
+        isOpen={!!deleteTarget}
+        employeeName={deleteTarget?.name}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        deleting={deleting}
+      />
+
     </DashboardLayout>
   );
 }
