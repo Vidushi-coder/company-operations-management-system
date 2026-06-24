@@ -90,25 +90,37 @@
 
 ```
 +-------------------+----------------------------------------------+
+
 |                   |  Employee Management                         |
-|   SIDEBAR NAV     |  [ Search Bar ]              [ + Add New ]   |
-|                   |  [ Filter by Department ▼ ] [ Filter by Role ▼ ] |
+
+|   SIDEBAR NAV     |  [ Search Bar ] [ Filter Department ▼ ]      |
+
+|                   |  [ Filter by Status ▼ ] [ + Add New ]        |
+
 |                   +----------------------------------------------+
+
 |                   |  TABLE:                                      |
+
 |                   |  Name | Department | Role | Status | Actions |
+
 |                   |  ---- | ---------- | ---- | ------ | ------- |
+
 |                   |  .... | .......... | .... | ...... | 👁 ✏ 🗑 |
+
 |                   |  .... | .......... | .... | ...... | 👁 ✏ 🗑 |
+
 +-------------------+----------------------------------------------+
 ```
 
 **Components:**
 - Page title: Employee Management
 - Search bar to filter employees by name
-- Filter dropdowns for Department and Role
+- Filter dropdown for Department
+- Filter dropdown for Status (Active / Inactive)
 - Add New Employee button (visible to Admin only) → opens an Add Employee form
 - Data table with columns: Name, Department, Role, Status (Active / Inactive), Actions
 - Action icons per row: View Profile (👁), Edit (✏), Delete (🗑)
+- Role column is populated from the linked User account, not stored directly on the Employee record
 
 **Add Employee Form Fields:**
 - Full Name
@@ -117,18 +129,20 @@
 - Department
 - Role (Admin / Manager / Employee)
 - Date of Joining
-- Password (auto-generated or set manually)
+- Password (set by Admin during creation)
 
 **Notes:**
-- Full page management access for Admin only
+- Full page management access for Admin only (Add, Edit, Delete)
 - Manager and Employee can view the list but cannot add, edit, or delete
+- View Profile (👁) is available to all roles
 - Clicking View Profile navigates to that employee's individual profile page
+- Adding or deleting an employee also creates/removes their linked login (User) account
 
 **Employee Profile Page contains:**
-- Personal details (name, email, phone, department, role, joining date)
-- List of projects the employee is assigned to
-- Summary of tasks assigned (count by status)
-- Leave summary (total taken, pending requests)
+- Personal details (name, email, phone, department, designation, role, joining date, status)
+- Assigned Projects (placeholder until Project Management module is built)
+- Task Summary (placeholder until Task Management module is built)
+- Leave Summary (placeholder until Leave Management module is built)
 
 ---
 
