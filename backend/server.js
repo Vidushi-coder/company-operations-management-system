@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 // Connect to the database
 connectDB();
@@ -19,8 +20,10 @@ app.get('/', (req, res) => {
   res.send('Company Operations Management System API is running');
 });
 
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/employees', employeeRoutes);
+app.use('/api/projects', projectRoutes);
 
 const PORT = process.env.PORT || 5000;
 
