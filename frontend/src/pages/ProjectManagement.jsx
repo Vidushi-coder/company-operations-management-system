@@ -78,6 +78,7 @@ function ProjectManagement() {
           <option value="On Hold">On Hold</option>
           <option value="Completed">Completed</option>
           <option value="Overdue">Overdue</option>
+          <option value="Not Started">Not Started</option>
         </select>
 
         <button
