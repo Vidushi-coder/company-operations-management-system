@@ -7,6 +7,7 @@ import ManagerDashboard from './pages/ManagerDashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import EmployeeManagement from './pages/EmployeeManagement';
 import EmployeeProfile from './pages/EmployeeProfile';
+import ProjectManagement from './pages/ProjectManagement';
 
 function App() {
   return (
@@ -56,6 +57,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <EmployeeProfile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/projects"
+            element={
+              <ProtectedRoute>
+                <ProjectManagement />
               </ProtectedRoute>
             }
           />
