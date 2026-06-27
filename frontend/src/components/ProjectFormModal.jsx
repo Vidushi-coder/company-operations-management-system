@@ -1,12 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../api/axios';
 
-function ProjectFormModal({ isOpen, onClose, onSuccess }) {
+function ProjectFormModal({ isOpen, mode = 'add', project, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     title: '', description: '', status: 'Not Started', startDate: '', deadline: ''
   });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (mode === 'edit' && project) {
+      setFormData({
+        title: project.title || '',
+        description: project.description || '',
+        status: project.status || 'Not Started',
+        startDate: project.startDate?.slice(0, 10) || '',
+        deadline: project.deadline?.slice(0, 10) || ''
+      });
+    } else {
+      setFormData({ title: '', description: '', status: 'Not Started', startDate: '', deadline: '' });
+    }
+    setError('');
+  }, [mode, project, isOpen]);
 
   if (!isOpen) return null;
 
@@ -25,10 +40,13 @@ function ProjectFormModal({ isOpen, onClose, onSuccess }) {
 
     setSubmitting(true);
     try {
-      await api.post('/projects', formData);
+      if (mode === 'add') {
+        await api.post('/projects', formData);
+      } else {
+        await api.put(`/projects/${project._id}`, formData);
+      }
       onSuccess();
       onClose();
-      setFormData({ title: '', description: '', status: 'Not Started', startDate: '', deadline: '' });
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong. Please try again.');
     } finally {
@@ -40,7 +58,9 @@ function ProjectFormModal({ isOpen, onClose, onSuccess }) {
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-white">Create New Project</h2>
+          <h2 className="text-xl font-semibold text-white">
+            {mode === 'add' ? 'Create New Project' : 'Edit Project'}
+          </h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white">✕</button>
         </div>
 
@@ -104,7 +124,7 @@ function ProjectFormModal({ isOpen, onClose, onSuccess }) {
             </button>
             <button type="submit" disabled={submitting}
               className="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50">
-              {submitting ? 'Creating...' : 'Create Project'}
+              {submitting ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>
