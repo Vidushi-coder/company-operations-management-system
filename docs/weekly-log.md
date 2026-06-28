@@ -126,3 +126,67 @@ The objective of this week was to complete the system design phase and begin the
 ### Outcome
 
 By the end of the week, the complete design phase was finalized and the authentication foundation of the application was successfully established. The project is now ready to move into module development, beginning with Employee Management and Project Management in the upcoming week.
+
+# Week 6 Progress Report
+
+## Duration: 22 June 2026 – 28 June 2026
+
+### Objectives
+
+The objective of this week was to implement the core business modules of the Company Operations Management System by developing the Employee Management and Project Management functionalities. The focus was on creating reusable backend APIs, integrating them with the frontend, and establishing seamless interaction between the application layers.
+
+### Activities Performed
+
+#### Employee Management Module
+
+* Developed the Employee Management module.
+* Implemented functionality to add, update, view, and delete employee records.
+* Integrated employee data with the MongoDB database.
+* Added search and filtering capabilities for efficient employee management.
+* Created responsive interfaces for employee-related operations.
+
+#### Project Management Module
+
+* Developed the Project Management module.
+* Implemented project creation, editing, and deletion functionalities.
+* Designed workflows for assigning employees to projects.
+* Managed project status and project-related information.
+* Established relationships between employees and projects.
+
+#### Backend Development
+
+* Developed RESTful APIs for employee and project management.
+* Implemented controller logic and route handling.
+* Connected application modules with the database using Mongoose models.
+* Added request validation and error handling for API operations.
+
+#### Frontend Development
+
+* Developed user interfaces for Employee Management and Project Management modules.
+* Integrated frontend components with backend APIs.
+* Implemented dynamic data rendering using React.
+* Improved navigation between different management modules.
+* Enhanced overall user experience through responsive layouts.
+
+#### Database Integration
+
+* Connected employee and project modules with MongoDB.
+* Verified CRUD operations across both modules.
+* Validated relationships between employees and assigned projects.
+
+### Deliverables Completed
+
+* Employee Management Module
+* Project Management Module
+* Employee CRUD Operations
+* Project CRUD Operations
+* Employee Search & Filtering
+* Employee–Project Association
+* Backend APIs for Employee & Project Modules
+* Frontend Integration
+* Database Integration
+* API Validation and Error Handling
+
+### Outcome
+
+By the end of the week, the Employee Management and Project Management modules were successfully implemented and integrated with both the frontend and backend. The application now supports efficient management of employee and project information, establishing the core operational functionality of the system. This milestone prepares the project for the implementation of Task Management, Leave Management, Notifications, and Dashboard Analytics in the following development phase.
