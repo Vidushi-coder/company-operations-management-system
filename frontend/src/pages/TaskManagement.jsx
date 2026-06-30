@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import DashboardLayout from '../layouts/DashboardLayout';
-import KanbanColumn from '../components/KanbanColumn';
+import KanbanColumn from '../components/TaskColumn';
 import { useAuth } from '../context/AuthContext';
 
 function TaskManagement() {
