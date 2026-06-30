@@ -9,6 +9,7 @@ import EmployeeManagement from './pages/EmployeeManagement';
 import EmployeeProfile from './pages/EmployeeProfile';
 import ProjectManagement from './pages/ProjectManagement';
 import ProjectDetail from './pages/ProjectDetail';
+import TaskManagement from './pages/TaskManagement';
 
 function App() {
   return (
@@ -76,6 +77,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProjectDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoute>
+                <TaskManagement />
               </ProtectedRoute>
             }
           />
