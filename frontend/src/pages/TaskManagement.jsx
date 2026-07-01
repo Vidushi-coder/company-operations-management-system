@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import DashboardLayout from '../layouts/DashboardLayout';
-import KanbanColumn from '../components/TaskColumn';
+import KanbanColumn from '../components/KanbanColumn';
+import TaskFormModal from '../components/TaskFormModal';
+import TaskDetailModal from '../components/TaskDetailModal';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useAuth } from '../context/AuthContext';
 
 function TaskManagement() {
@@ -11,6 +14,13 @@ function TaskManagement() {
   const [selectedProject, setSelectedProject] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState('add');
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const canManage = user?.role === 'Admin' || user?.role === 'Manager';
 
@@ -29,7 +39,6 @@ function TaskManagement() {
     try {
       const params = {};
       if (selectedProject) params.projectId = selectedProject;
-
       const response = await api.get('/tasks', { params });
       setTasks(response.data.tasks);
     } catch (err) {
@@ -52,8 +61,40 @@ function TaskManagement() {
   const doneTasks = tasks.filter((t) => t.status === 'Done');
 
   const handleTaskClick = (task) => {
-    // Task Detail modal will be wired up tomorrow
-    console.log('Clicked task:', task);
+    setSelectedTask(task);
+    setIsDetailOpen(true);
+  };
+
+  const handleAddClick = () => {
+    setFormMode('add');
+    setSelectedTask(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEditClick = () => {
+    setIsDetailOpen(false);
+    setFormMode('edit');
+    setIsFormOpen(true);
+  };
+
+  const handleDeleteClick = () => {
+    setIsDetailOpen(false);
+    setDeleteTarget(selectedTask);
+  };
+
+  const handleConfirmDelete = async () => {
+    setDeleting(true);
+    try {
+      await api.delete(`/tasks/${deleteTarget._id}`);
+      setDeleteTarget(null);
+      setSelectedTask(null);
+      fetchTasks();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to delete task');
+      setDeleteTarget(null);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -76,6 +117,7 @@ function TaskManagement() {
           {canManage && (
             <button
               type="button"
+              onClick={handleAddClick}
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md"
             >
               + Create New Task
@@ -89,12 +131,37 @@ function TaskManagement() {
       {loading ? (
         <p className="text-gray-400">Loading...</p>
       ) : (
-        <div className="flex gap-4 overflow-x-auto">
+        <div className="flex gap-4 overflow-x-auto pb-4">
           <KanbanColumn title="To Do" tasks={todoTasks} onTaskClick={handleTaskClick} />
           <KanbanColumn title="In Progress" tasks={inProgressTasks} onTaskClick={handleTaskClick} />
           <KanbanColumn title="Done" tasks={doneTasks} onTaskClick={handleTaskClick} />
         </div>
       )}
+
+      <TaskDetailModal
+        isOpen={isDetailOpen}
+        task={selectedTask}
+        onClose={() => setIsDetailOpen(false)}
+        onSuccess={fetchTasks}
+        onEdit={handleEditClick}
+        onDelete={handleDeleteClick}
+      />
+
+      <TaskFormModal
+        isOpen={isFormOpen}
+        mode={formMode}
+        task={selectedTask}
+        onClose={() => setIsFormOpen(false)}
+        onSuccess={fetchTasks}
+      />
+
+      <ConfirmDeleteModal
+        isOpen={!!deleteTarget}
+        employeeName={deleteTarget?.title}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        deleting={deleting}
+      />
     </DashboardLayout>
   );
 }
