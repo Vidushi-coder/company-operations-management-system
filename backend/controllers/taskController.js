@@ -109,8 +109,14 @@ const updateTask = async (req, res) => {
       await task.save();
 
     } else {
-      const { title, description, priority, status, projectId, assignedTo, dueDate } = req.body;
-      Object.assign(task, { title, description, priority, status, projectId, assignedTo, dueDate });
+      const allowedFields = ['title', 'description', 'priority', 'status', 'projectId', 'assignedTo', 'dueDate'];
+
+      allowedFields.forEach((field) => {
+        if (req.body[field] !== undefined) {
+          task[field] = req.body[field];
+        }
+      });
+
       await task.save();
     }
 
