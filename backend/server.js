@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const leaveRoutes = require('./routes/leaveRoutes');
 
 // Connect to the database
 connectDB();
@@ -26,6 +27,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/leave', leaveRoutes);
 
 const PORT = process.env.PORT || 5000;
 
