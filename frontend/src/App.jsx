@@ -10,6 +10,7 @@ import EmployeeProfile from './pages/EmployeeProfile';
 import ProjectManagement from './pages/ProjectManagement';
 import ProjectDetail from './pages/ProjectDetail';
 import TaskManagement from './pages/TaskManagement';
+import LeavePage from './pages/LeavePage';
 
 function App() {
   return (
@@ -86,6 +87,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <TaskManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/leave"
+            element={
+              <ProtectedRoute>
+                <LeavePage />
               </ProtectedRoute>
             }
           />
