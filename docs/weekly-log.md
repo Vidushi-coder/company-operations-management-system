@@ -190,3 +190,125 @@ The objective of this week was to implement the core business modules of the Com
 ### Outcome
 
 By the end of the week, the Employee Management and Project Management modules were successfully implemented and integrated with both the frontend and backend. The application now supports efficient management of employee and project information, establishing the core operational functionality of the system. This milestone prepares the project for the implementation of Task Management, Leave Management, Notifications, and Dashboard Analytics in the following development phase.
+
+## Week 7 Progress Report
+
+## Duration: 30 June 2026 – 05 July 2026
+
+### Objectives
+
+The objective of this week was to implement the Task Management and
+Leave Management modules of the Company Operations Management System,
+along with resolving a token expiry issue identified during the previous
+week's testing. The focus was on building fine-grained role-based access
+control, creating an intuitive Kanban-style task board, and developing
+a dual-view leave management interface that adapts based on the
+logged-in user's role.
+
+### Activities Performed
+
+#### Bug Fix — Token Expiry Handling
+
+* Identified a gap where expired or missing tokens were not redirecting
+  users to the login page.
+* Implemented a response interceptor in the centralized axios instance
+  to automatically detect 401 Unauthorized responses.
+* Configured the interceptor to clear localStorage and redirect to the
+  login page on token expiry, ensuring consistent session handling
+  across all modules.
+
+#### Task Management Module
+
+* Developed the Task Management module with full CRUD functionality.
+* Implemented fine-grained role-based access control — Admin and Manager
+  have full access, while Employees can only update the status of tasks
+  assigned specifically to them.
+* Built a Kanban-style three-column board (To Do, In Progress, Done)
+  for visual task tracking.
+* Developed reusable TaskCard and TaskColumn components for displaying
+  tasks grouped by status.
+* Created a Task Detail modal supporting inline status updates.
+* Built a Create and Edit Task form modal with dynamic Project and
+  Employee dropdowns.
+* Integrated Project-based filtering to allow users to view tasks
+  belonging to a specific project.
+* Connected all frontend components with backend APIs.
+
+#### Leave Management Module
+
+* Developed the Leave Management module with apply, approve, reject,
+  and cancel functionalities.
+* Implemented server-side date overlap detection to prevent duplicate
+  leave requests for the same date range.
+* Built a single LeavePage component that renders two different views
+  based on the logged-in user's role.
+* Employee view includes a personal leave history table, an Apply for
+  Leave modal, and a Cancel option for pending requests.
+* Manager and Admin view includes a full tabbed approval interface with
+  tab filters (All, Pending, Approved, Rejected) and Approve and Reject
+  action buttons per request.
+* Displayed the reviewer's name after a leave request is actioned.
+
+#### Backend Development
+
+* Developed RESTful APIs for Task Management and Leave Management.
+* Implemented ownership-based access control in the Task update
+  controller to restrict Employee access to their own tasks only.
+* Built separate approve and reject endpoints for leave requests rather
+  than a generic status update endpoint, ensuring clear and explicit
+  action handling.
+* Added validation for date ranges, duplicate leave detection, and
+  status-based restrictions on actions.
+* Connected all new modules to the Express server with appropriate
+  route and middleware configuration.
+
+#### Frontend Development
+
+* Built Kanban board layout with three status columns and task count
+  indicators per column.
+* Developed a dual-view Leave page that dynamically renders the correct
+  interface based on user role without requiring separate routes.
+* Reused existing shared components (ConfirmDeleteModal, DashboardLayout,
+  centralized axios instance) across new modules for consistency.
+* Added leave status badge and day calculator utility functions to keep
+  business logic separate from UI components.
+
+#### Testing
+
+* Conducted a full manual regression pass across both new modules for
+  all three roles (Admin, Manager, Employee).
+* Verified that role-based UI restrictions matched backend access control
+  exactly across all task and leave actions.
+* Re-verified the token expiry redirect fix across all protected pages.
+* Tested edge cases including overlapping leave dates, status-only task
+  updates by employees, and leave cancellation restrictions on
+  non-pending requests.
+
+### Deliverables Completed
+
+* Token Expiry Response Interceptor
+* Task Management Module
+* Leave Management Module
+* Task CRUD Operations
+* Kanban Board Interface
+* Task Detail Modal with Inline Status Update
+* Task Create and Edit Form Modal
+* Leave Apply, Approve, Reject and Cancel Functionality
+* Dual-View Leave Page (Employee and Manager/Admin)
+* Tab Filtering for Leave Requests
+* Backend APIs for Task and Leave Modules
+* Frontend Integration for Both Modules
+* Role-Based Access Control Across Task and Leave Modules
+* Edge Case Validation and Error Handling
+
+### Outcome
+
+By the end of the week, the Task Management and Leave Management modules
+were successfully implemented and integrated with both the frontend and
+backend. The application now supports complete task tracking through a
+visual Kanban board and a structured leave approval workflow with
+role-appropriate interfaces. The token expiry issue from the previous
+week was also resolved, ensuring stable session management across the
+entire application. This milestone prepares the project for the
+implementation of the Notification System, Dashboard Analytics,
+Testing, and Deployment in the remaining weeks.
