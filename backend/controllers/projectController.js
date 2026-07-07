@@ -1,5 +1,6 @@
 const Project = require('../models/Project');
 const Employee = require('../models/Employee');
+const createNotification = require('../utils/notificationHelper');
 
 // CREATE PROJECT
 const createProject = async (req, res) => {
@@ -126,6 +127,20 @@ const assignMember = async (req, res) => {
 
     project.members.push(employeeId);
     await project.save();
+
+    // Notify the assigned employee
+    try {
+      const assignedEmployee = await Employee.findById(employeeId).populate('userId');
+      if (assignedEmployee?.userId) {
+        await createNotification(
+          assignedEmployee.userId._id,
+          'Project Assignment',
+          `You have been added to the project: "${project.title}"`
+        );
+      }
+    } catch (err) {
+      console.error('Notification error:', err.message);
+    }
 
     const updatedProject = await Project.findById(req.params.id)
       .populate('createdBy', 'name role')

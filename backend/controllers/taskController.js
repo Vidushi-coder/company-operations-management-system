@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const Employee = require('../models/Employee');
+const createNotification = require('../utils/notificationHelper');
 
 // Helper: find the Employee profile linked to the currently logged-in user
 const getEmployeeProfile = async (userId) => {
@@ -23,6 +24,20 @@ const createTask = async (req, res) => {
     });
 
     res.status(201).json({ message: 'Task created successfully', task: newTask });
+
+    // Notify the assigned employee
+    try {
+      const assignedEmployee = await Employee.findById(assignedTo).populate('userId');
+      if (assignedEmployee?.userId) {
+        await createNotification(
+          assignedEmployee.userId._id,
+          'Task Assigned',
+          `You have been assigned a new task: "${title}"`
+        );
+      }
+    } catch (err) {
+      console.error('Notification error:', err.message);
+    }
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

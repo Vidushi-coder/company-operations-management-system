@@ -1,5 +1,6 @@
 const LeaveRequest = require('../models/LeaveRequest');
 const Employee = require('../models/Employee');
+const createNotification = require('../utils/notificationHelper');
 
 const getEmployeeProfile = async (userId) => {
   return await Employee.findOne({ userId });
@@ -119,6 +120,21 @@ const approveLeave = async (req, res) => {
     leave.reviewedBy = req.user.id;
     await leave.save();
 
+    // Notify the employee their leave was approved
+    try {
+      const employee = await require('../models/Employee')
+        .findById(leave.employeeId).populate('userId');
+      if (employee?.userId) {
+        await createNotification(
+          employee.userId._id,
+          'Leave Approved',
+          `Your ${leave.leaveType} request has been approved`
+        );
+      }
+    } catch (err) {
+      console.error('Notification error:', err.message);
+    }
+
     const updatedLeave = await LeaveRequest.findById(req.params.id)
       .populate('employeeId', 'name department')
       .populate('reviewedBy', 'name role');
@@ -145,6 +161,21 @@ const rejectLeave = async (req, res) => {
     leave.status = 'Rejected';
     leave.reviewedBy = req.user.id;
     await leave.save();
+
+    // Notify the employee their leave was rejected
+    try {
+      const employee = await require('../models/Employee')
+        .findById(leave.employeeId).populate('userId');
+      if (employee?.userId) {
+        await createNotification(
+          employee.userId._id,
+          'Leave Rejected',
+          `Your ${leave.leaveType} request has been rejected`
+        );
+      }
+    } catch (err) {
+      console.error('Notification error:', err.message);
+    }
 
     const updatedLeave = await LeaveRequest.findById(req.params.id)
       .populate('employeeId', 'name department')
