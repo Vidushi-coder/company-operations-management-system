@@ -11,6 +11,7 @@ import ProjectManagement from './pages/ProjectManagement';
 import ProjectDetail from './pages/ProjectDetail';
 import TaskManagement from './pages/TaskManagement';
 import LeavePage from './pages/LeavePage';
+import NotificationsPage from './pages/NotificationsPage';
 
 function App() {
   return (
@@ -96,6 +97,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <LeavePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <NotificationsPage />
               </ProtectedRoute>
             }
           />
