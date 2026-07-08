@@ -9,7 +9,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const leaveRoutes = require('./routes/leaveRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 
-// Connect to the database
+// Connecting to the database
 connectDB();
 
 const app = express();
