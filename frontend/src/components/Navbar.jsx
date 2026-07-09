@@ -18,7 +18,7 @@ function Navbar() {
       </h2>
 
       <div className="flex items-center gap-4">
-        <button className="text-gray-400 hover:text-white text-xl">🔔</button>
+        <NotificationBell />
         <div className="text-sm text-gray-300">
           {user?.name} <span className="text-gray-500">({user?.role})</span>
         </div>
