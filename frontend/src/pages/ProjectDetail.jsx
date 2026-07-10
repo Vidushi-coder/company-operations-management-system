@@ -22,13 +22,19 @@ function ProjectDetail() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  const [tasks, setTasks] = useState([]);
+
   const canManage = user?.role === 'Admin' || user?.role === 'Manager';
 
   const fetchProject = async () => {
     setLoading(true);
     try {
-      const response = await api.get(`/projects/${id}`);
-      setProject(response.data.project);
+      const [projectRes, taskRes] = await Promise.all([
+        api.get(`/projects/${id}`),
+        api.get(`/tasks/project/${id}`)
+      ]);
+      setProject(projectRes.data.project);
+      setTasks(taskRes.data.tasks);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load project');
     } finally {
@@ -141,19 +147,57 @@ function ProjectDetail() {
           <h3 className="text-white font-semibold mb-3">Tasks Overview</h3>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div>
-              <p className="text-xl font-bold text-white">0</p>
+              <p className="text-xl font-bold text-white">{tasks.filter((t) => t.status === 'To Do').length}</p>
               <p className="text-xs text-gray-500">To Do</p>
             </div>
             <div>
-              <p className="text-xl font-bold text-white">0</p>
+              <p className="text-xl font-bold text-white">{tasks.filter((t) => t.status === 'In Progress').length}</p>
               <p className="text-xs text-gray-500">In Progress</p>
             </div>
             <div>
-              <p className="text-xl font-bold text-white">0</p>
+              <p className="text-xl font-bold text-white">{tasks.filter((t) => t.status === 'Done').length}</p>
               <p className="text-xs text-gray-500">Done</p>
             </div>
           </div>
-          <p className="text-xs text-gray-600 mt-3">(Available once Task Management module is built)</p>
+          <p className="text-xs text-gray-600 mt-3">Total: {tasks.length} task{tasks.length !== 1 ? 's' : ''}</p>
+          {tasks.length > 0 && (
+            <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden mt-4">
+              <div className="px-5 py-4 border-b border-gray-700">
+                <h3 className="text-white font-semibold">Project Tasks</h3>
+              </div>
+              <table className="w-full text-left">
+                <thead className="bg-gray-900">
+                  <tr>
+                    <th className="px-4 py-3 text-xs font-semibold text-gray-400 uppercase">Task</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-gray-400 uppercase">Assignee</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-gray-400 uppercase">Priority</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-gray-400 uppercase">Status</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-gray-400 uppercase">Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tasks.map((task) => (
+                    <tr key={task._id} className="border-b border-gray-700 hover:bg-gray-700">
+                      <td className="px-4 py-3 text-sm text-gray-200">{task.title}</td>
+                      <td className="px-4 py-3 text-sm text-gray-200">{task.assignedTo?.name}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${task.priority === 'High' ? 'bg-red-900 text-red-400' :
+                            task.priority === 'Medium' ? 'bg-yellow-900 text-yellow-400' :
+                              'bg-green-900 text-green-400'
+                          }`}>
+                          {task.priority}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-200">{task.status}</td>
+                      <td className="px-4 py-3 text-sm text-gray-400">
+                        {new Date(task.dueDate).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
 
