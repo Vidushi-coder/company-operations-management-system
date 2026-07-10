@@ -17,5 +17,6 @@ router.get('/:id', protect, getLeaveById);
 router.put('/:id/approve', protect, authorizeRoles('Admin', 'Manager'), approveLeave);
 router.put('/:id/reject', protect, authorizeRoles('Admin', 'Manager'), rejectLeave);
 router.delete('/:id', protect, deleteLeave);
+router.get('/employee/:employeeId', protect, getLeaveByEmployeeId);
 
 module.exports = router;

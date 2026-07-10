@@ -214,11 +214,22 @@ const deleteLeave = async (req, res) => {
   }
 };
 
+const getLeaveByEmployeeId = async (req, res) => {
+  try {
+    const leaves = await LeaveRequest.find({ employeeId: req.params.employeeId })
+      .sort({ appliedAt: -1 });
+    res.status(200).json({ leaves });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   applyLeave,
   getLeaveRequests,
   getLeaveById,
   approveLeave,
   rejectLeave,
-  deleteLeave
+  deleteLeave,
+  getLeaveByEmployeeId
 };
