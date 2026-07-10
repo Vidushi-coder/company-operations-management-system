@@ -8,7 +8,8 @@ const {
   getLeaveById,
   approveLeave,
   rejectLeave,
-  deleteLeave
+  deleteLeave,
+  getLeaveByEmployeeId
 } = require('../controllers/leaveController');
 
 router.post('/', protect, applyLeave);
