@@ -161,7 +161,7 @@ function ProjectDetail() {
           </div>
           <p className="text-xs text-gray-600 mt-3">Total: {tasks.length} task{tasks.length !== 1 ? 's' : ''}</p>
           {tasks.length > 0 && (
-            <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden mt-4">
+            <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden overflow-x-auto mt-4">
               <div className="px-5 py-4 border-b border-gray-700">
                 <h3 className="text-white font-semibold">Project Tasks</h3>
               </div>
