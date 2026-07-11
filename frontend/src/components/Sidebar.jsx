@@ -14,7 +14,8 @@ function Sidebar() {
     ...(user?.role !== 'Employee' ? [{ label: 'Employees', path: '/employees', icon: '👥' }] : []),
     { label: 'Projects', path: '/projects', icon: '📁' },
     { label: 'Tasks', path: '/tasks', icon: '✅' },
-    { label: 'Leave', path: '/leave', icon: '📅' }
+    { label: 'Leave', path: '/leave', icon: '📅' },
+    { label: 'Notifications', path: '/notifications', icon: '🔔' }
   ];
 
   return (
