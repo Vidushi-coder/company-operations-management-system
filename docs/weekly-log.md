@@ -193,7 +193,7 @@ By the end of the week, the Employee Management and Project Management modules w
 
 ## Week 7 Progress Report
 
-## Duration: 30 June 2026 – 05 July 2026
+## Duration: 29 June 2026 – 05 July 2026
 
 ### Objectives
 
@@ -312,3 +312,118 @@ week was also resolved, ensuring stable session management across the
 entire application. This milestone prepares the project for the
 implementation of the Notification System, Dashboard Analytics,
 Testing, and Deployment in the remaining weeks.
+
+# Week 8 Progress Report
+
+## Duration: 06 July 2026 – 12 July 2026
+
+### Objectives
+
+The objective of this week was to implement the Notification System
+and Dashboard Analytics modules, complete all previously placeholder
+sections across existing pages, and polish the overall user interface
+in preparation for final testing and deployment in the upcoming week.
+
+### Activities Performed
+
+#### Notification System
+
+* Developed the Notification model with type categorisation and read
+  status tracking.
+* Built a reusable notification helper utility that creates notification
+  records automatically when key events occur across the application.
+* Wired automatic notification creation into the Task, Project and Leave
+  controllers so that notifications are triggered on task assignment,
+  project member assignment, and leave approval or rejection without
+  any manual intervention.
+* Built the NotificationBell component with a live unread count badge,
+  a dropdown panel showing the five most recent notifications with
+  colour-coded type indicators and time-ago display, and automatic
+  polling every thirty seconds to keep the count current.
+* Built the full Notifications page with All, Unread and Read tab
+  filters, individual mark as read, mark all as read, and delete
+  functionality.
+* Added Notifications as a dedicated link in the sidebar navigation
+  alongside the existing bell icon in the navbar.
+
+#### Dashboard and Analytics
+
+* Built a role-based Dashboard Statistics API with three separate
+  endpoints returning aggregated counts and data breakdowns using
+  MongoDB aggregation pipelines.
+* Integrated Chart.js and react-chartjs-2 and built reusable DonutChart
+  and BarChart wrapper components to keep chart rendering logic
+  separate from page components.
+* Built the Admin Dashboard with four summary cards showing total
+  employees, active projects, pending leave requests and unread
+  notifications, four Chart.js visualisations covering employees by
+  department, projects by status, tasks by status and leave requests
+  by status, and a recent leave requests table.
+* Built the Manager Dashboard with three summary cards, a task status
+  donut chart, a project status bar chart and a recent projects list
+  scoped to projects created by the logged-in manager.
+* Built the Employee Dashboard with four summary cards, a task status
+  donut chart, a task priority donut chart, a recent tasks list with
+  priority badges and a personal assigned projects list.
+
+#### Profile and Detail Page Completion
+
+* Completed the Employee Profile page by replacing all three placeholder
+  sections with real live data — assigned projects derived from task
+  assignments, recent tasks with priority and status indicators, and
+  leave history with status badges and date ranges.
+* Added three summary count cards to the Employee Profile page showing
+  total tasks with a status breakdown, total assigned projects and total
+  leave requests with pending and approved counts.
+* Completed the Project Detail page by replacing hardcoded zero counts
+  with live task status counts fetched from the database and adding a
+  full Project Tasks table showing all tasks belonging to the project
+  with assignee name, priority badge, status and due date.
+* Added employee-specific and project-specific task and leave endpoints
+  to the backend to support the profile and detail page data requirements.
+
+#### UI Polish
+
+* Updated the Navbar with a user avatar circle showing the first initial
+  of the logged-in user, a colour-coded role badge distinguishing Admin,
+  Manager and Employee roles visually, and a click-outside-to-close
+  user dropdown menu replacing the plain logout button.
+* Fixed the browser tab title from the Vite default placeholder to the
+  correct application name.
+* Confirmed consistent loading states and empty states across all pages
+  in the application.
+
+#### Documentation
+
+* Completed the Software Requirements Specification document covering
+  all functional requirements across seven modules, non-functional
+  requirements and the full technology stack.
+
+### Deliverables Completed
+
+* Notification Model and Helper Utility
+* Automatic Notification Triggers on Task, Project and Leave Events
+* Notification Bell Dropdown with Unread Count and Auto-Polling
+* Full Notifications Page with Tab Filtering and Read Management
+* Dashboard Statistics API with Role-Based Aggregated Data
+* Reusable DonutChart and BarChart Components
+* Admin Dashboard with Four Chart.js Visualisations
+* Manager Dashboard with Project and Task Charts
+* Employee Dashboard with Personal Task and Leave Statistics
+* Employee Profile with Real Project, Task and Leave Data
+* Project Detail with Live Task Count and Tasks Table
+* Polished Navbar with Avatar Circle and Role Badge
+* Software Requirements Specification Document
+
+### Outcome
+
+By the end of the week, the Notification System and Dashboard Analytics
+modules were fully implemented, completing the core feature development
+phase of the project. All previously placeholder sections across the
+Employee Profile and Project Detail pages were replaced with real live
+data, bringing the application to a fully functional state across all
+modules. The user interface was polished with consistent navigation,
+role-appropriate dashboards with visual analytics, and a refined navbar.
+The project is now ready to move into the final phase covering test case
+documentation, deployment to Vercel and Render, user manual preparation,
+and presentation readiness in Week 9.
