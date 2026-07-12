@@ -393,12 +393,6 @@ in preparation for final testing and deployment in the upcoming week.
 * Confirmed consistent loading states and empty states across all pages
   in the application.
 
-#### Documentation
-
-* Completed the Software Requirements Specification document covering
-  all functional requirements across seven modules, non-functional
-  requirements and the full technology stack.
-
 ### Deliverables Completed
 
 * Notification Model and Helper Utility
@@ -413,7 +407,6 @@ in preparation for final testing and deployment in the upcoming week.
 * Employee Profile with Real Project, Task and Leave Data
 * Project Detail with Live Task Count and Tasks Table
 * Polished Navbar with Avatar Circle and Role Badge
-* Software Requirements Specification Document
 
 ### Outcome
 
