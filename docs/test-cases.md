@@ -1,9 +1,9 @@
 # Test Cases
 
-**Project Name:** Company Operations Management System
-**Author:** Vidushi Gupta
-**Last Updated:** July 2026
-**Version:** 1.0
+**Project Name:** Company Operations Management System  
+**Author:** Vidushi Gupta  
+**Last Updated:** July 2026  
+**Purpose:** Document and verify the functional testing performed for each module to ensure the system meets the specified requirements.
 
 ---
 
@@ -34,9 +34,9 @@ expected result, actual result and pass/fail status.
 | Role | Name | Email |
 |------|------|-------|
 | Admin | Vidushi Gupta | vidushigupta@gmail.com |
-| Manager | Arjun Mehta | arjun@company.com |
+| Manager | Arjun Mehta | arjunmehta23@gmail.com |
 | Employee | Riya Sharma | riyasharma78@gmail.com |
-| Employee | Karan Verma | karan@company.com |
+| Employee | Karan Verma | vermakaran45@gmail.com |
 
 ---
 
