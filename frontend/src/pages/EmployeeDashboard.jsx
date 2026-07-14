@@ -61,9 +61,9 @@ function EmployeeDashboard() {
           <p className="text-green-400 text-xs mt-1">📁 Assigned to me</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
-          <p className="text-gray-400 text-sm mb-1">Pending Leave</p>
-          <p className="text-3xl font-bold text-white">{s.pendingLeaves}</p>
-          <p className="text-yellow-400 text-xs mt-1">📅 Awaiting approval</p>
+          <p className="text-gray-400 text-sm mb-1">Leave Balance</p>
+          <p className="text-3xl font-bold text-white">{s.totalDaysTaken}</p>
+          <p className="text-yellow-400 text-xs mt-1">📅 Days taken this year</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
           <p className="text-gray-400 text-sm mb-1">Notifications</p>
