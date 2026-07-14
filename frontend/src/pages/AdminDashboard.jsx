@@ -50,8 +50,8 @@ function AdminDashboard() {
     <DashboardLayout>
       <h1 className="text-2xl font-bold text-white mb-6">Admin Dashboard</h1>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      {/* Summary Cards Row 1 */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
           <p className="text-gray-400 text-sm mb-1">Total Employees</p>
           <p className="text-3xl font-bold text-white">{s.totalEmployees}</p>
@@ -63,14 +63,28 @@ function AdminDashboard() {
           <p className="text-green-400 text-xs mt-1">📁 Currently running</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
-          <p className="text-gray-400 text-sm mb-1">Pending Leaves</p>
-          <p className="text-3xl font-bold text-white">{s.pendingLeaves}</p>
-          <p className="text-yellow-400 text-xs mt-1">📅 Awaiting review</p>
+          <p className="text-gray-400 text-sm mb-1">Pending Approvals</p>
+          <p className="text-3xl font-bold text-white">{s.pendingApprovals}</p>
+          <p className="text-yellow-400 text-xs mt-1">📅 Leave requests awaiting</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
-          <p className="text-gray-400 text-sm mb-1">Unread Notifications</p>
-          <p className="text-3xl font-bold text-white">{s.unreadNotifications}</p>
-          <p className="text-purple-400 text-xs mt-1">🔔 New alerts</p>
+          <p className="text-gray-400 text-sm mb-1">New Employees</p>
+          <p className="text-3xl font-bold text-white">{s.newEmployees}</p>
+          <p className="text-purple-400 text-xs mt-1">🆕 Joined last 30 days</p>
+        </div>
+      </div>
+
+      {/* Summary Cards Row 2 — Risk KPIs */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="bg-gray-800 border border-red-900 rounded-lg p-5">
+          <p className="text-gray-400 text-sm mb-1">Overdue Tasks</p>
+          <p className="text-3xl font-bold text-red-400">{s.overdueTasks}</p>
+          <p className="text-red-500 text-xs mt-1">⚠ Tasks past due date</p>
+        </div>
+        <div className="bg-gray-800 border border-yellow-900 rounded-lg p-5">
+          <p className="text-gray-400 text-sm mb-1">Projects Near Deadline</p>
+          <p className="text-3xl font-bold text-yellow-400">{s.projectsNearDeadline}</p>
+          <p className="text-yellow-500 text-xs mt-1">⏰ Deadline within 7 days</p>
         </div>
       </div>
 
@@ -132,11 +146,10 @@ function AdminDashboard() {
                   <td className="px-4 py-3 text-sm text-gray-200">{leave.leaveType}</td>
                   <td className="px-4 py-3 text-sm text-gray-200">{new Date(leave.fromDate).toLocaleDateString()}</td>
                   <td className="px-4 py-3 text-sm">
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                      leave.status === 'Approved' ? 'bg-green-900 text-green-400' :
-                      leave.status === 'Rejected' ? 'bg-red-900 text-red-400' :
-                      'bg-yellow-900 text-yellow-400'
-                    }`}>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${leave.status === 'Approved' ? 'bg-green-900 text-green-400' :
+                        leave.status === 'Rejected' ? 'bg-red-900 text-red-400' :
+                          'bg-yellow-900 text-yellow-400'
+                      }`}>
                       {leave.status}
                     </span>
                   </td>
