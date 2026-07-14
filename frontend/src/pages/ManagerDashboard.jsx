@@ -44,21 +44,26 @@ function ManagerDashboard() {
       <h1 className="text-2xl font-bold text-white mb-6">Manager Dashboard</h1>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
           <p className="text-gray-400 text-sm mb-1">My Projects</p>
           <p className="text-3xl font-bold text-white">{s.managedProjects}</p>
           <p className="text-blue-400 text-xs mt-1">📁 Created by me</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
-          <p className="text-gray-400 text-sm mb-1">Pending Leaves</p>
-          <p className="text-3xl font-bold text-white">{s.pendingLeaves}</p>
-          <p className="text-yellow-400 text-xs mt-1">📅 Awaiting review</p>
+          <p className="text-gray-400 text-sm mb-1">Team Members</p>
+          <p className="text-3xl font-bold text-white">{s.uniqueTeamMembers}</p>
+          <p className="text-green-400 text-xs mt-1">👥 Across all projects</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
-          <p className="text-gray-400 text-sm mb-1">Unread Notifications</p>
-          <p className="text-3xl font-bold text-white">{s.unreadNotifications}</p>
-          <p className="text-purple-400 text-xs mt-1">🔔 New alerts</p>
+          <p className="text-gray-400 text-sm mb-1">Tasks Assigned Today</p>
+          <p className="text-3xl font-bold text-white">{s.tasksAssignedToday}</p>
+          <p className="text-purple-400 text-xs mt-1">✅ Created today</p>
+        </div>
+        <div className="bg-gray-800 border border-yellow-900 rounded-lg p-5">
+          <p className="text-gray-400 text-sm mb-1">Projects Near Deadline</p>
+          <p className="text-3xl font-bold text-yellow-400">{s.projectsNearDeadline}</p>
+          <p className="text-yellow-500 text-xs mt-1">⏰ Due within 7 days</p>
         </div>
       </div>
 
