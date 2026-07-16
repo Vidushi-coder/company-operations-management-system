@@ -109,8 +109,13 @@ The Company Operations Management System addresses these challenges by providing
 
 ### Deployment
 
-* Vercel (frontend)
-* Render (backend)
+### Backend
+- **Platform:** Render
+- **Live URL:** https://coms-backend-2xvx.onrender.com/
+
+### Frontend
+- **Platform:** Vercel
+- **Live URL:** Coming soon 
 
 ### Documentation
 
