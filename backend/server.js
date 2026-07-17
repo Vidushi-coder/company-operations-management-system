@@ -15,6 +15,8 @@ connectDB();
 
 const app = express();
 
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+
 const corsOptions = {
   origin: [
     'http://localhost:5173',
