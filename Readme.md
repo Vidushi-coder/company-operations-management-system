@@ -115,7 +115,7 @@ The Company Operations Management System addresses these challenges by providing
 
 ### Frontend
 - **Platform:** Vercel
-- **Live URL:** Coming soon 
+- **Live URL:** https://company-ops-management.vercel.app/
 
 ### Documentation
 
