@@ -120,10 +120,10 @@ Employees can submit leave requests specifying the leave type, date range, and r
 
 ### 6. Dashboard & Analytics
 
-Displays a summarized overview of the system's data, personalized based on the logged-in user's role. Admins see system-wide statistics, managers see their team and project summaries, and employees see their personal task and leave status.
+Displays a summarized overview of the system's data, personalized based on the logged-in user's role. Admins see system-wide statistics including employee distribution, project status, task completion rates and leave summaries through interactive Chart.js visualizations. Managers see their team and project summaries. Employees see their personal task and leave statistics.
 
 **Users:** All roles (content varies by role)  
-**Key Actions:** View Summary Cards, View Recent Activity, View Reports (Admin only)
+**Key Actions:** View Summary Cards, View Chart Visualizations, View Recent Activity
 
 ### 7. Notification System
 

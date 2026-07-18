@@ -39,20 +39,6 @@ function Sidebar() {
             {item.label}
           </NavLink>
         ))}
-
-        {user?.role === 'Admin' && (
-          <NavLink
-            to="/reports"
-            className={({ isActive }) =>
-              `flex items-center gap-2 px-4 py-2 mx-2 rounded-md text-sm font-medium ${
-                isActive ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-              }`
-            }
-          >
-            <span>📊</span>
-            Reports
-          </NavLink>
-        )}
       </nav>
     </div>
   );
