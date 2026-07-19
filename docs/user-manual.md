@@ -42,7 +42,7 @@ The system has three user roles with different levels of access:
 
 | Role | Description |
 |------|-------------|
-| **Admin** | Full system access — manages users, employees, projects, tasks, leaves and reports |
+| **Admin** | Full system access — manages users, employees, projects, tasks, leaves |
 | **Manager** | Manages projects and tasks, approves or rejects leave requests |
 | **Employee** | Views own data, applies for leave, updates own assigned task status |
 
@@ -91,7 +91,6 @@ After logging in, the application displays:
 | Tasks | ✅ | ✅ | ✅ |
 | Leave | ✅ | ✅ | ✅ |
 | Notifications | ✅ | ✅ | ✅ |
-| Reports | ✅ | ❌ | ❌ |
 
 ### Logging Out
 Click your **name/avatar** in the top right of the navbar to open the user
@@ -378,17 +377,7 @@ Notifications are automatically generated when:
 
 ---
 
-## 9. Reports
-
-> **Access:** Admin only
-
-The Reports page is accessible from the Admin sidebar. This module is
-planned for a future release and will provide detailed operational reports
-and data exports for organizational analysis.
-
----
-
-## 10. Common Questions
+## 09. Common Questions
 
 **Q: I forgot my password. What should I do?**
 Contact your system Admin. They can delete your account and create a new
@@ -396,7 +385,7 @@ one with a new password.
 
 **Q: Why can I not see some pages in the sidebar?**
 The sidebar shows only the pages available to your role. Employees do not
-see Employees or Reports. Managers do not see Reports.
+see Employees.
 
 **Q: My session ended and I was redirected to the login page. Why?**
 Your login session expires after 7 days for security. Simply log in again
@@ -418,7 +407,7 @@ requests may have been created, resulting in a higher number than expected.
 
 ---
 
-## 11. Tips for Getting Started
+## 10. Tips for Getting Started
 
 **For Admins:**
 1. Start by adding all employees through Employee Management

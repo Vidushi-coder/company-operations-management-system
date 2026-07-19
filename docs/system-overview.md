@@ -67,7 +67,6 @@ The Company Operations Management System is a web-based enterprise application d
 | Approve / Reject Leave   | ✅    | ✅      | ❌       |
 | View All Leave Requests  | ✅    | ✅      | ❌       |
 | View Own Leave History   | ✅    | ✅      | ✅       |
-| Access System Reports    | ✅    | ❌      | ❌       |
 
 ---
 

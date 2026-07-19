@@ -56,8 +56,6 @@
 |   - Projects      +------------+------------+----------------+
 |   - Tasks         |                                          |
 |   - Leave         |   MAIN CONTENT AREA                      |
-|   - Reports       |   Recent Activity Table                  |
-|   (Admin only)    |                                          |
 +-------------------+------------------------------------------+
 ```
 
@@ -65,16 +63,16 @@
 
 | Summary Card             | Admin | Manager | Employee |
 |--------------------------|-------|---------|----------|
-| Total Employees          | ✅    | ❌      | ❌       |
-| Active Projects          | ✅    | ✅      | ✅       |
-| Pending Leave Requests   | ✅    | ✅      | ❌       |
-| My Assigned Tasks        | ❌    | ❌      | ✅       |
-| My Pending Leave         | ❌    | ❌      | ✅       |
-| Unread Notifications     | ✅    | ✅      | ✅       |
+| Total Employees          | ✅    | ❌     | ❌       |
+| Active Projects          | ✅    | ✅     | ✅       |
+| Pending Leave Requests   | ✅    | ✅     | ❌       |
+| My Assigned Tasks        | ❌    | ❌     | ✅       |
+| My Pending Leave         | ❌    | ❌     | ✅       |
+| Unread Notifications     | ✅    | ✅     | ✅       |
 
 **Components:**
 - Top navbar with app name on the left and logged-in user name with logout button on the right
-- Sidebar navigation on the left (Reports link visible to Admin only)
+- Sidebar navigation on the left 
 - Summary stat cards displayed in a row at the top of the main content area
 - Recent activity table below the cards showing the latest system events
 
@@ -283,7 +281,7 @@
 |                   |  PENDING APPROVALS TABLE:                  |
 |                   |  Employee | Type | From | To | Action      |
 |                   |  -------- | ---- | ---- | -- | ------      |
-|                   |  ........ | .... | .... |... | ✅ ❌        |
+|                   |  ........ | .... | .... |... | ✅ ❌      |
 +-------------------+--------------------------------------------+
 ```
 
@@ -461,7 +459,7 @@
 ```
 
 **Components:**
-- Sidebar with only Employee relevant links — no Reports, no Employees
+- Sidebar with only Employee relevant links — no Employees
 - Navbar with notification bell and user dropdown
 - Four summary cards: Active Projects, My Tasks Today, Pending Leave, 
   Unread Notifications
@@ -472,5 +470,5 @@
 
 **Notes:**
 - All data shown is personal to the logged in employee only
-- Employee cannot see Reports or Employee Management in the sidebar
+- Employee cannot see Employee Management in the sidebar
 - Sidebar has fewer links compared to Admin and Manager view

@@ -116,7 +116,6 @@ Responsible for:
 
 * Requirement Analysis Document
 * SRS Document
-* Figma Designs
 * ER Diagram
 * Database Schema
 * Source Code
