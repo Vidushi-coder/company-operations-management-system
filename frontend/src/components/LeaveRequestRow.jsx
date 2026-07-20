@@ -31,7 +31,7 @@ function LeaveRequestRow({ leave, onApprove, onReject, approving, rejecting }) {
         {leave.reviewedBy?.name || '—'}
       </td>
       <td className="px-4 py-3 text-sm">
-        {isPending && !isOwnLeave ? (
+        {isPending ? (
           <div className="flex gap-2">
             <button
               onClick={() => onApprove(leave._id)}
@@ -48,8 +48,6 @@ function LeaveRequestRow({ leave, onApprove, onReject, approving, rejecting }) {
               {rejecting === leave._id ? 'Rejecting...' : '❌ Reject'}
             </button>
           </div>
-        ) : isPending && isOwnLeave ? (
-          <span className="text-xs text-gray-500">Your request</span>
         ) : (
           <span className="text-xs text-gray-500">—</span>
         )}
