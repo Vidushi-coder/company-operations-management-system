@@ -420,3 +420,75 @@ role-appropriate dashboards with visual analytics, and a refined navbar.
 The project is now ready to move into the final phase covering test case
 documentation, deployment to Vercel and Render, user manual preparation,
 and presentation readiness in Week 9.
+
+## Week 9 Progress Report
+
+## Duration: 14 July 2026 – 21 July 2026
+
+### Objectives
+
+The objective of this week was to complete the final testing phase,
+deploy the application to production, prepare all documentation
+deliverables, and ensure the project is ready.
+
+### Activities Performed
+
+#### Testing
+
+* Conducted a full manual regression pass across all modules on the
+  live deployed application.
+* Tested all three user roles (Admin, Manager, Employee) across
+  Authentication, Employee Management, Project Management, Task
+  Management, Leave Management, Notifications, and Dashboard.
+* Identified and documented known limitations including Admin leave
+  application requiring a linked Employee profile.
+* Fixed self-approval bug preventing Managers from approving their
+  own leave requests.
+* Fixed project status not displaying correctly in Employee Profile.
+* Fixed New Employees dashboard card to use dateOfJoining instead
+  of document creation date.
+
+#### Deployment
+
+* Deployed backend to Render as a Node.js web service.
+* Deployed frontend to Vercel connected to the live Render backend.
+* Configured environment variables for production on both platforms.
+* Added Vercel routing configuration to support React Router on
+  direct URL access and page refresh.
+* Verified live application functionality end to end.
+
+#### Documentation
+
+* Wrote comprehensive test cases document covering 49 test cases
+  across all 7 modules.
+* Wrote complete user manual covering all three roles with
+  step-by-step instructions for every feature.
+* Finalized Software Requirements Specification document.
+* Updated README with live deployment URLs, API endpoint reference,
+  project architecture, and local setup instructions.
+
+#### Final Fixes and Polish
+
+* Added Management as a department option in Employee form.
+* Removed Apply for Leave button for Admin role since Admin has no
+  linked Employee profile by design.
+* Fixed project status populate in task routes to include status
+  and deadline fields.
+* Confirmed Render cold start behavior and documented workaround
+  for evaluation presentation.
+
+### Deliverables Completed
+
+* Live Deployed Application (Vercel + Render)
+* Test Cases Document (49 test cases, all passing)
+* User Manual
+* Final README with deployment URLs and API reference
+* All Bug Fixes from Live Deployment Testing
+
+### Outcome
+
+By the end of Week 9, the Company Operations Management System was
+fully deployed, tested, and documented. The application is live and
+accessible at company-ops-management.vercel.app with a backend API
+running on Render connected to MongoDB Atlas. All planned modules
+are functional and the project is ready.
