@@ -63,7 +63,7 @@ const getAllTasks = async (req, res) => {
     }
 
     const tasks = await Task.find(filter)
-      .populate('projectId', 'title')
+      .populate('projectId', 'title status deadline')
       .populate('assignedTo', 'name department')
       .populate('createdBy', 'name role');
 

@@ -155,17 +155,19 @@ function LeavePage() {
         </>
       )}
 
-      {/* ── MANAGER / ADMIN VIEW ── */}
+      {/* ── MANAGER VIEW ── */}
       {isManager && (
         <>
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold text-white">Leave Requests</h1>
-            <button
-              onClick={() => setIsApplyOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md"
-            >
-              + Apply for Leave
-            </button>
+            {user?.role === 'Manager' && (
+              <button
+                onClick={() => setIsApplyOpen(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md"
+              >
+                + Apply for Leave
+              </button>
+            )}
           </div>
 
           <div className="flex gap-2 mb-4">
@@ -173,11 +175,10 @@ function LeavePage() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-                  activeTab === tab
+                className={`px-4 py-2 rounded-md text-sm font-medium transition ${activeTab === tab
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-                }`}
+                  }`}
               >
                 {tab}
               </button>

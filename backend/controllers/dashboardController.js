@@ -22,7 +22,7 @@ const getAdminStats = async (req, res) => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const newEmployees = await Employee.countDocuments({
-      createdAt: { $gte: thirtyDaysAgo }
+      dateOfJoining: { $gte: thirtyDaysAgo }
     });
 
     const today = new Date();
