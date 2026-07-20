@@ -107,9 +107,15 @@ const getLeaveById = async (req, res) => {
 // APPROVE LEAVE (Admin/Manager only)
 const approveLeave = async (req, res) => {
   try {
-    const leave = await LeaveRequest.findById(req.params.id);
+    const leave = await LeaveRequest.findById(req.params.id).populate('employeeId');
     if (!leave) {
       return res.status(404).json({ message: 'Leave request not found' });
+    }
+
+    // Prevent self-approval
+    const employee = await Employee.findOne({ userId: req.user.id });
+    if (employee && leave.employeeId._id.toString() === employee._id.toString()) {
+      return res.status(403).json({ message: 'You cannot approve or reject your own leave request' });
     }
 
     if (leave.status !== 'Pending') {
@@ -149,9 +155,15 @@ const approveLeave = async (req, res) => {
 // REJECT LEAVE (Admin/Manager only)
 const rejectLeave = async (req, res) => {
   try {
-    const leave = await LeaveRequest.findById(req.params.id);
+    const leave = await LeaveRequest.findById(req.params.id).populate('employeeId');
     if (!leave) {
       return res.status(404).json({ message: 'Leave request not found' });
+    }
+
+    // Prevent self-approval
+    const employee = await Employee.findOne({ userId: req.user.id });
+    if (employee && leave.employeeId._id.toString() === employee._id.toString()) {
+      return res.status(403).json({ message: 'You cannot approve or reject your own leave request' });
     }
 
     if (leave.status !== 'Pending') {

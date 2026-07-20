@@ -119,6 +119,7 @@ function EmployeeFormModal({ isOpen, mode, employee, onClose, onSuccess }) {
               required
             >
               <option value="">Select Department</option>
+              <option value="Management">Management</option>
               <option value="Engineering">Engineering</option>
               <option value="HR">HR</option>
               <option value="Finance">Finance</option>
