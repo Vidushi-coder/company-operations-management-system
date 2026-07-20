@@ -14,7 +14,7 @@ access control system.
 
 | Layer | URL |
 |-------|-----|
-| **Frontend** | https://company-operations-management-syste.vercel.app |
+| **Frontend** | https://company-ops-management.vercel.app/ |
 | **Backend API** | https://coms-backend-2xvx.onrender.com |
 
 > **Note:** The backend is hosted on Render's free tier and may take
@@ -293,6 +293,5 @@ The frontend runs on `http://localhost:5173`
 
 ## Author
 
-**Vidushi Gupta**
-Industry Internship Project — Quantum AI Innovation
-Evaluated by SoCSEA — August 2026
+**Vidushi Gupta**  
+Industry Internship Project — Quantum AI Innovation  
