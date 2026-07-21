@@ -46,7 +46,7 @@ function EmployeeDashboard() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-bold text-white mb-6">My Dashboard</h1>
+      <h1 className="text-2xl font-bold text-white mb-6">Employee Dashboard</h1>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
