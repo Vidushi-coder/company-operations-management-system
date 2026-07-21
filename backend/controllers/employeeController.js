@@ -113,10 +113,20 @@ const deleteEmployee = async (req, res) => {
       return res.status(404).json({ message: 'Employee not found' });
     }
 
+    const LeaveRequest = require('../models/LeaveRequest');
+    const Task = require('../models/Task');
+    const Notification = require('../models/Notification');
+
+    await LeaveRequest.deleteMany({ employeeId: employee._id });
+    await Task.updateMany(
+      { assignedTo: employee._id },
+      { $set: { assignedTo: null } }
+    );
+    await Notification.deleteMany({ userId: employee.userId });
     await Employee.findByIdAndDelete(req.params.id);
     await User.findByIdAndDelete(employee.userId);
 
-    res.status(200).json({ message: 'Employee deleted successfully' });
+    res.status(200).json({ message: 'Employee and all related data deleted successfully' });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

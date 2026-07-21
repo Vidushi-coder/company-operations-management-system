@@ -16,6 +16,7 @@ function LeavePage() {
   const [approving, setApproving] = useState(null);
   const [rejecting, setRejecting] = useState(null);
   const [activeTab, setActiveTab] = useState('All');
+  const [myEmployeeId, setMyEmployeeId] = useState(null);
 
   const isManager = user?.role === 'Admin' || user?.role === 'Manager';
 
@@ -27,6 +28,18 @@ function LeavePage() {
       if (activeTab !== 'All') params.status = activeTab;
       const response = await api.get('/leave', { params });
       setLeaves(response.data.leaves);
+
+      if (isManager) {
+        try {
+          const empRes = await api.get('/employees');
+          const myEmp = empRes.data.employees.find(
+            (e) => e.userId?._id === user?.id || e.email === user?.email
+          );
+          if (myEmp) setMyEmployeeId(myEmp._id);
+        } catch (err) {
+          console.error('Could not fetch manager employee profile');
+        }
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load leave requests');
     } finally {
@@ -176,8 +189,8 @@ function LeavePage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition ${activeTab === tab
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
                   }`}
               >
                 {tab}
@@ -222,6 +235,10 @@ function LeavePage() {
                       onReject={handleReject}
                       approving={approving}
                       rejecting={rejecting}
+                      isOwnLeave={
+                        myEmployeeId &&
+                        leave.employeeId?._id === myEmployeeId
+                      }
                     />
                   ))
                 )}

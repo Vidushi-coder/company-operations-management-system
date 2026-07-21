@@ -107,29 +107,41 @@ const getLeaveById = async (req, res) => {
 // APPROVE LEAVE (Admin/Manager only)
 const approveLeave = async (req, res) => {
   try {
-    const leave = await LeaveRequest.findById(req.params.id).populate('employeeId');
+    const leave = await LeaveRequest.findById(req.params.id)
+      .populate('employeeId');
+
     if (!leave) {
       return res.status(404).json({ message: 'Leave request not found' });
     }
 
-    // Prevent self-approval
-    const employee = await Employee.findOne({ userId: req.user.id });
-    if (employee && leave.employeeId._id.toString() === employee._id.toString()) {
-      return res.status(403).json({ message: 'You cannot approve or reject your own leave request' });
+    const reviewerEmployee = await Employee.findOne({ userId: req.user.id });
+    if (
+      reviewerEmployee &&
+      leave.employeeId._id.toString() === reviewerEmployee._id.toString()
+    ) {
+      return res.status(403).json({
+        message: 'You cannot approve your own leave request'
+      });
     }
 
     if (leave.status !== 'Pending') {
-      return res.status(400).json({ message: `This request has already been ${leave.status.toLowerCase()}` });
+      return res.status(400).json({
+        message: `This request has already been ${leave.status.toLowerCase()}`
+      });
     }
 
     leave.status = 'Approved';
     leave.reviewedBy = req.user.id;
     await leave.save();
 
-    // Notify the employee their leave was approved
+    const updatedLeave = await LeaveRequest.findById(req.params.id)
+      .populate('employeeId', 'name department')
+      .populate('reviewedBy', 'name role');
+
+    // Notify employee
     try {
-      const employee = await require('../models/Employee')
-        .findById(leave.employeeId).populate('userId');
+      const employee = await Employee.findById(leave.employeeId._id)
+        .populate('userId');
       if (employee?.userId) {
         await createNotification(
           employee.userId._id,
@@ -141,11 +153,10 @@ const approveLeave = async (req, res) => {
       console.error('Notification error:', err.message);
     }
 
-    const updatedLeave = await LeaveRequest.findById(req.params.id)
-      .populate('employeeId', 'name department')
-      .populate('reviewedBy', 'name role');
-
-    res.status(200).json({ message: 'Leave request approved successfully', leave: updatedLeave });
+    res.status(200).json({
+      message: 'Leave request approved successfully',
+      leave: updatedLeave
+    });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -155,29 +166,41 @@ const approveLeave = async (req, res) => {
 // REJECT LEAVE (Admin/Manager only)
 const rejectLeave = async (req, res) => {
   try {
-    const leave = await LeaveRequest.findById(req.params.id).populate('employeeId');
+    const leave = await LeaveRequest.findById(req.params.id)
+      .populate('employeeId');
+
     if (!leave) {
       return res.status(404).json({ message: 'Leave request not found' });
     }
 
-    // Prevent self-approval
-    const employee = await Employee.findOne({ userId: req.user.id });
-    if (employee && leave.employeeId._id.toString() === employee._id.toString()) {
-      return res.status(403).json({ message: 'You cannot approve or reject your own leave request' });
+    const reviewerEmployee = await Employee.findOne({ userId: req.user.id });
+    if (
+      reviewerEmployee &&
+      leave.employeeId._id.toString() === reviewerEmployee._id.toString()
+    ) {
+      return res.status(403).json({
+        message: 'You cannot reject your own leave request'
+      });
     }
 
     if (leave.status !== 'Pending') {
-      return res.status(400).json({ message: `This request has already been ${leave.status.toLowerCase()}` });
+      return res.status(400).json({
+        message: `This request has already been ${leave.status.toLowerCase()}`
+      });
     }
 
     leave.status = 'Rejected';
     leave.reviewedBy = req.user.id;
     await leave.save();
 
-    // Notify the employee their leave was rejected
+    const updatedLeave = await LeaveRequest.findById(req.params.id)
+      .populate('employeeId', 'name department')
+      .populate('reviewedBy', 'name role');
+
+    // Notify employee
     try {
-      const employee = await require('../models/Employee')
-        .findById(leave.employeeId).populate('userId');
+      const employee = await Employee.findById(leave.employeeId._id)
+        .populate('userId');
       if (employee?.userId) {
         await createNotification(
           employee.userId._id,
@@ -189,11 +212,10 @@ const rejectLeave = async (req, res) => {
       console.error('Notification error:', err.message);
     }
 
-    const updatedLeave = await LeaveRequest.findById(req.params.id)
-      .populate('employeeId', 'name department')
-      .populate('reviewedBy', 'name role');
-
-    res.status(200).json({ message: 'Leave request rejected successfully', leave: updatedLeave });
+    res.status(200).json({
+      message: 'Leave request rejected successfully',
+      leave: updatedLeave
+    });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

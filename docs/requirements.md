@@ -115,13 +115,16 @@ Responsible for:
 ## Expected Deliverables
 
 * Requirement Analysis Document
-* SRS Document
+* Software Requirements Specification (SRS)
 * ER Diagram
+* Use Case Diagram
 * Database Schema
-* Source Code
-* Testing Report
+* Low-Fidelity Wireframes
+* UI Design System
+* Source Code (Frontend and Backend)
+* Test Cases Document
 * User Manual
-* Deployment
+* Deployed Application
 
 ---
 

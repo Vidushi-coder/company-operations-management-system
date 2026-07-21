@@ -78,7 +78,6 @@
 
 **Notes:**
 - Sidebar should highlight the currently active page
-- Summary cards should be clickable and navigate to the relevant module page
 
 ---
 
