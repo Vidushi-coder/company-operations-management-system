@@ -3,6 +3,7 @@ const Project = require('../models/Project');
 const Task = require('../models/Task');
 const LeaveRequest = require('../models/LeaveRequest');
 const Notification = require('../models/Notification');
+const mongoose = require('mongoose');
 
 // Helper to get employee profile from userId
 const getEmployeeProfile = async (userId) => {
@@ -120,7 +121,7 @@ const getManagerStats = async (req, res) => {
     ]);
 
     const projectsByStatus = await Project.aggregate([
-      { $match: { createdBy: req.user.id } },
+      { $match: { createdBy: new mongoose.Types.ObjectId(req.user.id) } },
       { $group: { _id: '$status', count: { $sum: 1 } } }
     ]);
 

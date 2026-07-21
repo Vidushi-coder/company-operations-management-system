@@ -108,7 +108,10 @@ const getLeaveById = async (req, res) => {
 const approveLeave = async (req, res) => {
   try {
     const leave = await LeaveRequest.findById(req.params.id)
-      .populate('employeeId');
+      .populate({
+        path: 'employeeId',
+        populate: { path: 'userId', select: 'role' }
+      });
 
     if (!leave) {
       return res.status(404).json({ message: 'Leave request not found' });
@@ -121,6 +124,15 @@ const approveLeave = async (req, res) => {
     ) {
       return res.status(403).json({
         message: 'You cannot approve your own leave request'
+      });
+    }
+
+    if (
+      req.user.role === 'Manager' &&
+      leave.employeeId?.userId?.role === 'Manager'
+    ) {
+      return res.status(403).json({
+        message: 'Managers cannot approve or reject another manager\'s leave request'
       });
     }
 
@@ -167,7 +179,10 @@ const approveLeave = async (req, res) => {
 const rejectLeave = async (req, res) => {
   try {
     const leave = await LeaveRequest.findById(req.params.id)
-      .populate('employeeId');
+      .populate({
+        path: 'employeeId',
+        populate: { path: 'userId', select: 'role' }
+      });
 
     if (!leave) {
       return res.status(404).json({ message: 'Leave request not found' });
@@ -180,6 +195,15 @@ const rejectLeave = async (req, res) => {
     ) {
       return res.status(403).json({
         message: 'You cannot reject your own leave request'
+      });
+    }
+
+    if (
+      req.user.role === 'Manager' &&
+      leave.employeeId?.userId?.role === 'Manager'
+    ) {
+      return res.status(403).json({
+        message: 'Managers cannot approve or reject another manager\'s leave request'
       });
     }
 
