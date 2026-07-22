@@ -93,13 +93,21 @@ const updateProject = async (req, res) => {
 // DELETE PROJECT
 const deleteProject = async (req, res) => {
   try {
-    const deletedProject = await Project.findByIdAndDelete(req.params.id);
+    const Task = require('../models/Task');
+    const Notification = require('../models/Notification');
 
-    if (!deletedProject) {
+    const project = await Project.findById(req.params.id);
+    if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    res.status(200).json({ message: 'Project deleted successfully' });
+    // Delete all tasks belonging to this project
+    await Task.deleteMany({ projectId: req.params.id });
+
+    // Delete the project
+    await Project.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: 'Project and all related tasks deleted successfully' });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

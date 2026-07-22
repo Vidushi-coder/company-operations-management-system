@@ -48,8 +48,6 @@ const applyLeave = async (req, res) => {
 };
 
 // GET LEAVE REQUESTS
-// Employee → own requests only
-// Admin/Manager → all requests (with optional filters)
 const getLeaveRequests = async (req, res) => {
   try {
     const { status, employeeId } = req.query;
@@ -68,7 +66,11 @@ const getLeaveRequests = async (req, res) => {
     if (status) filter.status = status;
 
     const leaves = await LeaveRequest.find(filter)
-      .populate('employeeId', 'name department')
+      .populate({
+        path: 'employeeId',
+        select: 'name department userId',
+        populate: { path: 'userId', select: 'role' }
+      })
       .populate('reviewedBy', 'name role')
       .sort({ appliedAt: -1 });
 

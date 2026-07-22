@@ -239,6 +239,10 @@ function LeavePage() {
                         myEmployeeId &&
                         leave.employeeId?._id === myEmployeeId
                       }
+                      isOtherManager={
+                        user?.role === 'Manager' &&
+                        leave.employeeId?.userId?.role === 'Manager'
+                      }
                     />
                   ))
                 )}

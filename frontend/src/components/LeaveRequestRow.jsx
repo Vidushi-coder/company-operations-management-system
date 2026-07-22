@@ -1,7 +1,8 @@
 import { getLeaveStatusBadge, calculateDays } from '../utils/leaveHelpers';
 
-function LeaveRequestRow({ leave, onApprove, onReject, approving, rejecting, isOwnLeave }) {
+function LeaveRequestRow({ leave, onApprove, onReject, approving, rejecting, isOwnLeave, isOtherManager }) {
   const isPending = leave.status === 'Pending';
+  const canAction = isPending && !isOwnLeave && !isOtherManager;
 
   return (
     <tr className="border-b border-gray-700 hover:bg-gray-700">
@@ -31,7 +32,7 @@ function LeaveRequestRow({ leave, onApprove, onReject, approving, rejecting, isO
         {leave.reviewedBy?.name || '—'}
       </td>
       <td className="px-4 py-3 text-sm">
-        {isPending && !isOwnLeave ? (
+        {canAction ? (
           <div className="flex gap-2">
             <button
               onClick={() => onApprove(leave._id)}
@@ -48,8 +49,10 @@ function LeaveRequestRow({ leave, onApprove, onReject, approving, rejecting, isO
               {rejecting === leave._id ? 'Rejecting...' : '❌ Reject'}
             </button>
           </div>
-        ) : isPending && isOwnLeave ? (
-          <span className="text-xs text-gray-500 italic">Your request</span>
+        ) : isPending && (isOwnLeave || isOtherManager) ? (
+          <span className="text-xs text-gray-500 italic">
+            {isOwnLeave ? 'Your request' : 'Manager request'}
+          </span>
         ) : (
           <span className="text-xs text-gray-500">—</span>
         )}
