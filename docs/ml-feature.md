@@ -9,21 +9,32 @@
 
 ## Problem Statement
 
-Project managers currently set deadlines manually based on gut feeling
-or experience. There is no data-driven mechanism to estimate how long
-a project will take based on its complexity, team size, and task
-distribution. This leads to either unrealistic deadlines (too tight)
-or padded estimates (too loose), both of which hurt organizational
-efficiency.
+## Problem Statement
+
+The Company Operations Management System enables project managers to
+create projects, assign employees, and manage project tasks efficiently.
+However, project deadlines are still determined manually based on
+experience and assumptions.
+
+After completing the core project management functionality, an
+opportunity was identified to further improve the planning process by
+providing data-driven project duration estimates.
+
+This enhancement aims to assist managers in making more informed
+deadline decisions using Machine Learning.
 
 ---
 
 ## Proposed Solution
 
-An ML-powered prediction card embedded in the Project Detail page that
-analyzes the project's current state — team size, task count, and
-priority distribution — and returns an estimated completion time in
-days along with a suggested deadline date and a confidence percentage.
+As an enhancement to the existing Project Management module, an
+AI-assisted Project Completion Predictor is introduced on the Project
+Detail page.
+
+The predictor analyzes the current state of a project—including team
+size, task count, priority distribution, and completion progress—to
+estimate the remaining project duration and recommend a suitable
+completion deadline.
 
 ---
 
