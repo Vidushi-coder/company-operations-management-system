@@ -9,6 +9,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const leaveRoutes = require('./routes/leaveRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const predictionRoutes = require('./routes/predictionRoutes');
 
 // Connecting to the database
 connectDB();
@@ -44,6 +45,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/leave', leaveRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/ml', predictionRoutes);
 
 const PORT = process.env.PORT || 5000;
 
