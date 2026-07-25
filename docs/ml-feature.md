@@ -150,3 +150,15 @@ scenarios to ensure the model generalizes well.
 | API | Python Flask |
 | Integration | Node.js proxy route |
 | UI | React component on Project Detail page |
+
+---
+
+## Known Limitations
+
+### Small Project Granularity
+For very small projects (team size < 3, task count < 5), the model
+may produce identical predictions for slightly different inputs. This
+occurs because the Random Forest decision trees group these small
+values into the same leaf nodes during training. The model is most
+accurate for projects with 3+ members and 5+ tasks, which reflects
+realistic organizational project scenarios.

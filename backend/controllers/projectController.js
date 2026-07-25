@@ -101,6 +101,13 @@ const deleteProject = async (req, res) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
+    // Clean up related notifications
+    await Notification.deleteMany({
+      message: { $regex: project.title, $options: 'i' },
+      type: 'Project Assignment'
+    });
+
+
     // Delete all tasks belonging to this project
     await Task.deleteMany({ projectId: req.params.id });
 

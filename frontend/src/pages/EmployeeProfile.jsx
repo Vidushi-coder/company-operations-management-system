@@ -71,7 +71,7 @@ function EmployeeProfile() {
       {/* Personal Details */}
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6 flex gap-6">
         <div className="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-          {employee.name?.charAt(0).toUpperCase()}
+          {employee.name?.split(' ')[0].charAt(0).toUpperCase() + employee.name?.split(' ')[1]?.charAt(0).toUpperCase()}
         </div>
         <div className="grid grid-cols-2 gap-4 flex-1">
           <div>
@@ -104,9 +104,8 @@ function EmployeeProfile() {
           </div>
           <div>
             <p className="text-xs text-gray-500 uppercase">Status</p>
-            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-              employee.status === 'Active' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
-            }`}>
+            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${employee.status === 'Active' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
+              }`}>
               {employee.status}
             </span>
           </div>
@@ -177,11 +176,10 @@ function EmployeeProfile() {
                 <div key={task._id} className="px-5 py-3">
                   <p className="text-sm text-gray-200">{task.title}</p>
                   <div className="flex gap-2 mt-1">
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                      task.priority === 'High' ? 'bg-red-900 text-red-400' :
-                      task.priority === 'Medium' ? 'bg-yellow-900 text-yellow-400' :
-                      'bg-green-900 text-green-400'
-                    }`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${task.priority === 'High' ? 'bg-red-900 text-red-400' :
+                        task.priority === 'Medium' ? 'bg-yellow-900 text-yellow-400' :
+                          'bg-green-900 text-green-400'
+                      }`}>
                       {task.priority}
                     </span>
                     <span className="text-xs text-gray-500">{task.status}</span>

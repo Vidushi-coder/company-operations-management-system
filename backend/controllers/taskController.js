@@ -154,6 +154,14 @@ const deleteTask = async (req, res) => {
     if (!deletedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
+
+    // Clean up related notifications
+    const Notification = require('../models/Notification');
+    await Notification.deleteMany({
+      message: { $regex: deletedTask.title, $options: 'i' },
+      type: 'Task Assigned'
+    });
+    
     res.status(200).json({ message: 'Task deleted successfully' });
 
   } catch (error) {
