@@ -7,6 +7,8 @@ import { getDisplayStatus } from '../utils/projectHelpers';
 import ProjectFormModal from '../components/ProjectFormModal';
 import AssignMemberModal from '../components/AssignMemberModal';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+import ProjectPredictionCard from '../components/ProjectPredictionCard';
+import { useAuth } from '../context/AuthContext';
 
 function ProjectDetail() {
   const { id } = useParams();
@@ -182,8 +184,8 @@ function ProjectDetail() {
                       <td className="px-4 py-3 text-sm text-gray-200">{task.assignedTo?.name}</td>
                       <td className="px-4 py-3 text-sm">
                         <span className={`text-xs font-semibold px-2 py-1 rounded-full ${task.priority === 'High' ? 'bg-red-900 text-red-400' :
-                            task.priority === 'Medium' ? 'bg-yellow-900 text-yellow-400' :
-                              'bg-green-900 text-green-400'
+                          task.priority === 'Medium' ? 'bg-yellow-900 text-yellow-400' :
+                            'bg-green-900 text-green-400'
                           }`}>
                           {task.priority}
                         </span>
@@ -224,6 +226,16 @@ function ProjectDetail() {
         onConfirm={handleConfirmDelete}
         deleting={deleting}
       />
+
+      {/* AI Prediction Card — Admin and Manager only */}
+      {canManage && (
+        <div className="mt-4">
+          <ProjectPredictionCard
+            project={project}
+            tasks={tasks}
+          />
+        </div>
+      )}
     </DashboardLayout>
   );
 }
