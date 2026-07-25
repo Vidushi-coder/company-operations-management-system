@@ -45,7 +45,7 @@ function Navbar() {
             className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition"
           >
             <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
-              {user?.name?.charAt(0).toUpperCase()}
+              {user?.name?.split('')[0]?.charAt(0).toUpperCase() + user?.name?.split(' ')[1]?.charAt(0).toUpperCase()}
             </div>
             <div className="text-left">
               <p className="text-white text-sm font-medium leading-none">{user?.name}</p>
