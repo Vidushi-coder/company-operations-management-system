@@ -8,7 +8,6 @@ import ProjectFormModal from '../components/ProjectFormModal';
 import AssignMemberModal from '../components/AssignMemberModal';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import ProjectPredictionCard from '../components/ProjectPredictionCard';
-import { useAuth } from '../context/AuthContext';
 
 function ProjectDetail() {
   const { id } = useParams();
