@@ -1,0 +1,277 @@
+import { useState } from 'react';
+import api from '../api/axios';
+
+function ProjectPredictionCard({ project, tasks }) {
+  const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [applying, setApplying] = useState(false);
+  const [applied, setApplied] = useState(false);
+
+  const memberCount = project.members?.length || 0;
+  const taskCount = tasks?.length || 0;
+
+  const highCount = tasks?.filter((t) => t.priority === 'High').length || 0;
+  const mediumCount = tasks?.filter((t) => t.priority === 'Medium').length || 0;
+  const lowCount = tasks?.filter((t) => t.priority === 'Low').length || 0;
+
+  const doneCount = tasks?.filter((t) => t.status === 'Done').length || 0;
+  const completionRate = taskCount > 0 ? parseFloat((doneCount / taskCount).toFixed(2)) : 0;
+
+  const handlePredict = async () => {
+    setLoading(true);
+    setError('');
+    setPrediction(null);
+    try {
+      const response = await api.post('/ml/predict', {
+        team_size: memberCount,
+        task_count: taskCount,
+        high_priority_count: highCount,
+        medium_priority_count: mediumCount,
+        low_priority_count: lowCount,
+        completion_rate: completionRate
+      });
+      setPrediction(response.data);
+      setApplied(false);
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+        'Prediction service is currently unavailable. Please try again later.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApplyDeadline = async () => {
+    if (!prediction?.suggested_deadline) return;
+    setApplying(true);
+    try {
+      await api.put(`/projects/${project._id}`, {
+        title: project.title,
+        description: project.description,
+        status: project.status,
+        startDate: project.startDate,
+        deadline: prediction.suggested_deadline
+      });
+      setApplied(true);
+    } catch (err) {
+      setError('Failed to apply deadline. Please try again.');
+    } finally {
+      setApplying(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  const getConfidenceColor = (confidence) => {
+    if (confidence >= 85) return 'text-green-400';
+    if (confidence >= 70) return 'text-yellow-400';
+    return 'text-red-400';
+  };
+
+  // State 1 — No members and no tasks
+  if (memberCount === 0 && taskCount === 0) {
+    return (
+      <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xl">🤖</span>
+          <h3 className="text-white font-semibold">AI Project Completion Predictor</h3>
+        </div>
+        <div className="bg-gray-900 rounded-lg p-4">
+          <p className="text-gray-400 text-sm mb-3">
+            Not enough project information is available.
+          </p>
+          <p className="text-gray-500 text-sm">Assign at least:</p>
+          <ul className="text-gray-500 text-sm mt-1 space-y-1">
+            <li className="flex items-center gap-2">
+              <span className={memberCount >= 1 ? 'text-green-400' : 'text-gray-600'}>
+                {memberCount >= 1 ? '✅' : '○'}
+              </span>
+              1 team member
+            </li>
+            <li className="flex items-center gap-2">
+              <span className={taskCount >= 1 ? 'text-green-400' : 'text-gray-600'}>
+                {taskCount >= 1 ? '✅' : '○'}
+              </span>
+              1 task
+            </li>
+          </ul>
+          <p className="text-gray-600 text-xs mt-3">
+            to generate an estimated completion time.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // State 2 — Members exist but no tasks
+  if (memberCount >= 1 && taskCount === 0) {
+    return (
+      <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xl">🤖</span>
+          <h3 className="text-white font-semibold">AI Project Completion Predictor</h3>
+        </div>
+        <div className="bg-gray-900 rounded-lg p-4">
+          <p className="text-yellow-400 text-sm font-medium mb-1">
+            Project planning is incomplete.
+          </p>
+          <p className="text-gray-400 text-sm">
+            Please create at least one task before generating a prediction.
+          </p>
+          <div className="flex items-center gap-2 mt-3 text-xs text-gray-500">
+            <span className="text-green-400">✅</span> {memberCount} member{memberCount !== 1 ? 's' : ''} assigned
+          </div>
+          <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+            <span className="text-gray-600">○</span> No tasks created yet
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // State 3 — Tasks exist but no members
+  if (memberCount === 0 && taskCount >= 1) {
+    return (
+      <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xl">🤖</span>
+          <h3 className="text-white font-semibold">AI Project Completion Predictor</h3>
+        </div>
+        <div className="bg-gray-900 rounded-lg p-4">
+          <p className="text-yellow-400 text-sm font-medium mb-1">
+            No team assigned yet.
+          </p>
+          <p className="text-gray-400 text-sm">
+            Assign at least one employee to the project before generating an estimate.
+          </p>
+          <div className="flex items-center gap-2 mt-3 text-xs text-gray-500">
+            <span className="text-gray-600">○</span> No members assigned yet
+          </div>
+          <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+            <span className="text-green-400">✅</span> {taskCount} task{taskCount !== 1 ? 's' : ''} created
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // State 4 — Ready for prediction (members >= 1 AND tasks >= 1)
+  return (
+    <div className="bg-gray-800 border border-gray-700 rounded-lg p-5">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-xl">🤖</span>
+        <h3 className="text-white font-semibold">AI Project Completion Predictor</h3>
+      </div>
+
+      {/* Project Metrics */}
+      <div className="bg-gray-900 rounded-lg p-4 mb-4">
+        <div className="grid grid-cols-2 gap-3 text-sm">
+          <div className="flex justify-between">
+            <span className="text-gray-400">Team Size</span>
+            <span className="text-white font-medium">{memberCount}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-400">Total Tasks</span>
+            <span className="text-white font-medium">{taskCount}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-400">High Priority</span>
+            <span className="text-red-400 font-medium">{highCount}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-400">Medium Priority</span>
+            <span className="text-yellow-400 font-medium">{mediumCount}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-400">Low Priority</span>
+            <span className="text-green-400 font-medium">{lowCount}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-400">Completed</span>
+            <span className="text-blue-400 font-medium">
+              {doneCount}/{taskCount} ({Math.round(completionRate * 100)}%)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-900/30 border border-red-800 rounded-lg p-3 mb-4">
+          <p className="text-red-400 text-sm">⚠ {error}</p>
+        </div>
+      )}
+
+      {/* Prediction Result */}
+      {prediction && !error && (
+        <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-4 mb-4">
+          <p className="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-3">
+            Prediction Result
+          </p>
+          <div className="grid grid-cols-3 gap-3 text-center mb-4">
+            <div>
+              <p className="text-2xl font-bold text-white">
+                {prediction.predicted_days}
+              </p>
+              <p className="text-gray-500 text-xs mt-1">Estimated Days</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">
+                {formatDate(prediction.suggested_deadline)}
+              </p>
+              <p className="text-gray-500 text-xs mt-1">Suggested Deadline</p>
+            </div>
+            <div>
+              <p className={`text-2xl font-bold ${getConfidenceColor(prediction.confidence)}`}>
+                {prediction.confidence}%
+              </p>
+              <p className="text-gray-500 text-xs mt-1">Confidence</p>
+            </div>
+          </div>
+
+          {applied ? (
+            <div className="flex items-center justify-center gap-2 py-2">
+              <span className="text-green-400 text-sm">✅ Deadline applied successfully</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleApplyDeadline}
+              disabled={applying}
+              className="w-full py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium disabled:opacity-50 transition"
+            >
+              {applying ? 'Applying...' : '📅 Apply Deadline to Project'}
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Generate Button */}
+      <button
+        onClick={handlePredict}
+        disabled={loading}
+        className="w-full py-2.5 rounded-md bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium disabled:opacity-50 transition flex items-center justify-center gap-2"
+      >
+        {loading ? (
+          <>
+            <span className="animate-spin">⟳</span>
+            Generating estimate...
+          </>
+        ) : (
+          <>
+            🔮 {prediction ? 'Regenerate Estimate' : 'Generate Estimate'}
+          </>
+        )}
+      </button>
+    </div>
+  );
+}
+
+export default ProjectPredictionCard;
