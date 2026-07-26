@@ -232,6 +232,7 @@ function ProjectDetail() {
           <ProjectPredictionCard
             project={project}
             tasks={tasks}
+            onDeadlineApplied={fetchProject}
           />
         </div>
       )}

@@ -153,6 +153,14 @@ scenarios to ensure the model generalizes well.
 
 ---
 
+### Regenerate Estimate
+Clicking Regenerate recalculates the prediction using the current
+project metrics. If no project data has changed (team size, task count,
+priorities, or completion rate), the result will be identical since
+the Random Forest model is deterministic for the same input values.
+
+---
+
 ## Known Limitations
 
 ### Small Project Granularity

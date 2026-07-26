@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from '../api/axios';
 
-function ProjectPredictionCard({ project, tasks }) {
+function ProjectPredictionCard({ project, tasks, onDeadlineApplied }) {
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -60,6 +60,7 @@ function ProjectPredictionCard({ project, tasks }) {
         deadline: prediction.suggested_deadline
       });
       setApplied(true);
+      if (onDeadlineApplied) onDeadlineApplied();
     } catch (err) {
       setError('Failed to apply deadline. Please try again.');
     } finally {
@@ -269,7 +270,7 @@ function ProjectPredictionCard({ project, tasks }) {
           {project.deadline && (
             <div className="mb-3 px-3 py-2 rounded-md bg-gray-800 text-xs">
               {new Date(prediction.suggested_deadline).toDateString() ===
-               new Date(project.deadline).toDateString() ? (
+                new Date(project.deadline).toDateString() ? (
                 <p className="text-green-400">
                   ✅ Current deadline matches the AI suggestion
                 </p>
@@ -286,6 +287,13 @@ function ProjectPredictionCard({ project, tasks }) {
             <div className="flex items-center justify-center gap-2 py-2 bg-green-900/20 rounded-md border border-green-800">
               <span className="text-green-400 text-sm">
                 ✅ Deadline updated to {formatDate(prediction.suggested_deadline)}
+              </span>
+            </div>
+          ) : new Date(prediction.suggested_deadline).toDateString() ===
+            new Date(project.deadline).toDateString() ? (
+            <div className="flex items-center justify-center gap-2 py-2 bg-green-900/20 rounded-md border border-green-800">
+              <span className="text-green-400 text-sm">
+                ✅ Project deadline already matches AI suggestion
               </span>
             </div>
           ) : (
