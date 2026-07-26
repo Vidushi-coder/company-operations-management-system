@@ -216,6 +216,7 @@ function ProjectPredictionCard({ project, tasks }) {
           <p className="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-3">
             Prediction Result
           </p>
+
           <div className="grid grid-cols-3 gap-3 text-center mb-4">
             <div>
               <p className="text-2xl font-bold text-white">
@@ -224,7 +225,7 @@ function ProjectPredictionCard({ project, tasks }) {
               <p className="text-gray-500 text-xs mt-1">Estimated Days</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold text-white leading-tight">
                 {formatDate(prediction.suggested_deadline)}
               </p>
               <p className="text-gray-500 text-xs mt-1">Suggested Deadline</p>
@@ -237,9 +238,28 @@ function ProjectPredictionCard({ project, tasks }) {
             </div>
           </div>
 
+          {/* Deadline comparison */}
+          {project.deadline && (
+            <div className="mb-3 px-3 py-2 rounded-md bg-gray-800 text-xs">
+              {new Date(prediction.suggested_deadline).toDateString() ===
+                new Date(project.deadline).toDateString() ? (
+                <p className="text-green-400">
+                  ✅ Current deadline matches the AI suggestion
+                </p>
+              ) : (
+                <p className="text-yellow-400">
+                  ⚠ Current deadline: {formatDate(project.deadline)} —
+                  AI suggests {formatDate(prediction.suggested_deadline)}
+                </p>
+              )}
+            </div>
+          )}
+
           {applied ? (
-            <div className="flex items-center justify-center gap-2 py-2">
-              <span className="text-green-400 text-sm">✅ Deadline applied successfully</span>
+            <div className="flex items-center justify-center gap-2 py-2 bg-green-900/20 rounded-md border border-green-800">
+              <span className="text-green-400 text-sm">
+                ✅ Deadline updated to {formatDate(prediction.suggested_deadline)}
+              </span>
             </div>
           ) : (
             <button
