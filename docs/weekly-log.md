@@ -423,7 +423,7 @@ and presentation readiness in Week 9.
 
 ## Week 9 Progress Report
 
-## Duration: 14 July 2026 – 21 July 2026
+## Duration: 13 July 2026 – 19 July 2026
 
 ### Objectives
 
@@ -492,3 +492,78 @@ fully deployed, tested, and documented. The application is live and
 accessible at company-ops-management.vercel.app with a backend API
 running on Render connected to MongoDB Atlas. All planned modules
 are functional and the project is ready.
+
+# Week 10 Progress Report
+
+## Duration: 20 July 2026 – 26 July 2026
+
+### Objectives
+
+The objective of this week was to finalize any remaining fixes from
+the deployed application testing, implement the AI-Assisted Project
+Completion Predictor as an innovation enhancement, and integrate it
+seamlessly into the existing system.
+
+### Activities Performed
+
+#### Final Module Fixes
+
+* Fixed cascade deletion of related records when an employee is removed,
+  ensuring leave requests and notifications are cleaned up automatically.
+* Prevented managers from approving or rejecting their own leave requests
+  at both the backend and frontend layers.
+* Added Management as a department option in the employee form.
+
+#### AI-Assisted Project Completion Predictor
+
+* Designed the ML feature architecture — a Flask microservice called
+  via an Express proxy route, with a React UI card embedded in the
+  Project Detail page.
+* Generated a 500-row synthetic dataset covering diverse project
+  scenarios with realistic duration calculations based on team size,
+  task count, priority distribution, and completion rate.
+* Trained a Random Forest Regressor model using scikit-learn, achieving
+  strong predictive accuracy on test data.
+* Implemented per-prediction confidence scoring using standard deviation
+  across all 100 decision trees in the ensemble.
+* Built a Flask REST API that loads the trained model at startup and
+  exposes a /predict endpoint with full input validation.
+* Built an Express proxy route at /api/ml/predict with role-based
+  access control restricting the endpoint to Admin and Manager only.
+* Built a four-state React prediction card component embedded in the
+  Project Detail page showing progressively richer UI based on available
+  project data — from an informational prompt when data is insufficient
+  to a full metrics display with prediction results and deadline
+  application.
+* Implemented a deadline comparison feature that highlights the
+  difference between the current project deadline and the AI-suggested
+  deadline, and hides the Apply button when both already match.
+* Added an Apply Deadline button that updates the project deadline
+  directly from the prediction result with a single click.
+* Validated prediction logic manually across multiple contrasting
+  scenarios to confirm the model produces logically consistent results.
+* Documented known limitations including reduced granularity for very
+  small projects and deterministic behavior on repeated predictions
+  with unchanged inputs.
+
+### Deliverables Completed
+
+* Bug Fixes Across Employee, Project, Leave and Dashboard Modules
+* Synthetic Dataset (500 rows, 6 features)
+* Trained Random Forest Model
+* Flask Prediction Microservice
+* Express Proxy Route with Role-Based Access and Validation
+* React Prediction Card with Four Progressive States
+* Apply Deadline Integration
+* ML Feature Documentation
+* Known Limitations Documentation
+
+### Outcome
+
+By the end of the week, all identified bugs from live deployment testing
+were resolved and the AI-Assisted Project Completion Predictor was fully
+built and integrated into the application. The predictor provides
+data-driven deadline estimation on the Project Detail page for Admin and
+Manager roles, powered by a Random Forest model trained on 500 synthetic
+project records. The application is now feature-complete and ready for
+final testing, deployment of the ML service, and evaluation preparation.
