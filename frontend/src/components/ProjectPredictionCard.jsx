@@ -34,10 +34,15 @@ function ProjectPredictionCard({ project, tasks }) {
       setPrediction(response.data);
       setApplied(false);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-        'Prediction service is currently unavailable. Please try again later.'
-      );
+      const msg = err.response?.data?.message || '';
+      if (msg.includes('unavailable') || err.code === 'ECONNREFUSED') {
+        setError(
+          'The prediction service is currently unavailable. ' +
+          'If running locally, ensure the Flask API is running on port 5001.'
+        );
+      } else {
+        setError(msg || 'Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -206,7 +211,13 @@ function ProjectPredictionCard({ project, tasks }) {
       {/* Error Message */}
       {error && (
         <div className="bg-red-900/30 border border-red-800 rounded-lg p-3 mb-4">
-          <p className="text-red-400 text-sm">⚠ {error}</p>
+          <p className="text-red-400 text-sm mb-2">⚠ {error}</p>
+          <button
+            onClick={() => setError('')}
+            className="text-xs text-red-400 hover:text-red-300 underline"
+          >
+            Dismiss
+          </button>
         </div>
       )}
 
