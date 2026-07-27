@@ -9,17 +9,19 @@ function NotificationsPage() {
   const [activeTab, setActiveTab] = useState('All');
 
   const typeColors = {
-    'Task Assigned': 'bg-blue-900 text-blue-400',
-    'Leave Approved': 'bg-green-900 text-green-400',
-    'Leave Rejected': 'bg-red-900 text-red-400',
-    'Project Assignment': 'bg-purple-900 text-purple-400'
+    'Task Assigned': 'bg-blue-500',
+    'Leave Approved': 'bg-green-500',
+    'Leave Rejected': 'bg-red-500',
+    'Project Assignment': 'bg-purple-500',
+    'Leave Requested': 'bg-orange-500'
   };
 
   const typeDot = {
     'Task Assigned': 'bg-blue-500',
     'Leave Approved': 'bg-green-500',
     'Leave Rejected': 'bg-red-500',
-    'Project Assignment': 'bg-purple-500'
+    'Project Assignment': 'bg-purple-500',
+    'Leave Requested': 'bg-orange-500'
   };
 
   const timeAgo = (dateString) => {
@@ -105,11 +107,10 @@ function NotificationsPage() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-              activeTab === tab
+            className={`px-4 py-2 rounded-md text-sm font-medium transition ${activeTab === tab
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-            }`}
+              }`}
           >
             {tab}
             {tab === 'Unread' && (
@@ -134,9 +135,8 @@ function NotificationsPage() {
           {filteredNotifications.map((notification) => (
             <div
               key={notification._id}
-              className={`bg-gray-800 border border-gray-700 rounded-lg px-4 py-4 flex items-start gap-4 ${
-                !notification.isRead ? 'border-l-4 border-l-blue-500' : ''
-              }`}
+              className={`bg-gray-800 border border-gray-700 rounded-lg px-4 py-4 flex items-start gap-4 ${!notification.isRead ? 'border-l-4 border-l-blue-500' : ''
+                }`}
             >
               <div className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ${typeDot[notification.type] || 'bg-gray-500'}`} />
 

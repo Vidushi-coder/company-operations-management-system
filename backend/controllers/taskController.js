@@ -1,6 +1,6 @@
 const Task = require('../models/Task');
 const Employee = require('../models/Employee');
-const createNotification = require('../utils/notificationHelper');
+const { createNotification, notifyAllAdmins } = require('../utils/notificationHelper');
 
 // Helper: find the Employee profile linked to the currently logged-in user
 const getEmployeeProfile = async (userId) => {
@@ -24,6 +24,16 @@ const createTask = async (req, res) => {
     });
 
     res.status(201).json({ message: 'Task created successfully', task: newTask });
+
+    // Notify all admins about new task
+    try {
+      await notifyAllAdmins(
+        'Task Assigned',
+        `A new task "${title}" has been created and assigned`
+      );
+    } catch (err) {
+      console.error('Admin notification error:', err.message);
+    }
 
     // Notify the assigned employee
     try {
@@ -161,7 +171,7 @@ const deleteTask = async (req, res) => {
       message: { $regex: deletedTask.title, $options: 'i' },
       type: 'Task Assigned'
     });
-    
+
     res.status(200).json({ message: 'Task deleted successfully' });
 
   } catch (error) {

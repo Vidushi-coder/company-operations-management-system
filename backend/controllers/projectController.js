@@ -1,6 +1,6 @@
 const Project = require('../models/Project');
 const Employee = require('../models/Employee');
-const createNotification = require('../utils/notificationHelper');
+const { createNotification, notifyAllAdmins } = require('../utils/notificationHelper');
 
 // CREATE PROJECT
 const createProject = async (req, res) => {
@@ -20,6 +20,16 @@ const createProject = async (req, res) => {
       message: 'Project created successfully',
       project: newProject
     });
+
+    // Notify all admins about new project
+    try {
+      await notifyAllAdmins(
+        'Project Assignment',
+        `A new project "${title}" has been created`
+      );
+    } catch (err) {
+      console.error('Admin notification error:', err.message);
+    }
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

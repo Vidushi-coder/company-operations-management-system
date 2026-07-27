@@ -27,6 +27,17 @@ const notificationSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  type: {
+    type: String,
+    enum: [
+      'Task Assigned',
+      'Leave Approved',
+      'Leave Rejected',
+      'Project Assignment',
+      'Leave Requested'
+    ],
+    required: true
   }
 });
 

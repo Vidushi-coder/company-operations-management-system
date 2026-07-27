@@ -1,6 +1,6 @@
 const LeaveRequest = require('../models/LeaveRequest');
 const Employee = require('../models/Employee');
-const createNotification = require('../utils/notificationHelper');
+const { createNotification, notifyAllAdmins } = require('../utils/notificationHelper');
 
 const getEmployeeProfile = async (userId) => {
   return await Employee.findOne({ userId });
@@ -41,6 +41,17 @@ const applyLeave = async (req, res) => {
     });
 
     res.status(201).json({ message: 'Leave request submitted successfully', leave: newLeave });
+
+    // Notify all admins about the new leave request
+    // Notify all admins about new leave request
+    try {
+      await notifyAllAdmins(
+        'Leave Requested',
+        `${employee.name} has submitted a ${leaveType} request`
+      );
+    } catch (err) {
+      console.error('Admin notification error:', err.message);
+    }
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

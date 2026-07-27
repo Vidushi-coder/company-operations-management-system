@@ -72,7 +72,8 @@ function NotificationBell() {
     'Task Assigned': 'bg-blue-500',
     'Leave Approved': 'bg-green-500',
     'Leave Rejected': 'bg-red-500',
-    'Project Assignment': 'bg-purple-500'
+    'Project Assignment': 'bg-purple-500',
+    'Leave Requested': 'bg-orange-500'
   };
 
   const timeAgo = (dateString) => {
@@ -124,9 +125,8 @@ function NotificationBell() {
                 <div
                   key={notification._id}
                   onClick={() => handleNotificationClick(notification)}
-                  className={`flex items-start gap-3 px-4 py-3 border-b border-gray-700 cursor-pointer hover:bg-gray-700 transition ${
-                    !notification.isRead ? 'border-l-2 border-l-blue-500' : ''
-                  }`}
+                  className={`flex items-start gap-3 px-4 py-3 border-b border-gray-700 cursor-pointer hover:bg-gray-700 transition ${!notification.isRead ? 'border-l-2 border-l-blue-500' : ''
+                    }`}
                 >
                   <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${typeColors[notification.type] || 'bg-gray-500'}`} />
                   <div className="flex-1 min-w-0">
