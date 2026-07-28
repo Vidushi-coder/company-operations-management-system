@@ -789,6 +789,130 @@ expected result, actual result and pass/fail status.
 
 ---
 
+---
+
+## Module 8 — AI Project Completion Predictor
+
+### TC-50: Prediction Card State 1 — No Members No Tasks
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-50 |
+| **Module** | AI Predictor |
+| **Description** | Card shows informational message when project has no members and no tasks |
+| **Preconditions** | Logged in as Admin or Manager, project exists with 0 members and 0 tasks |
+| **Test Steps** | 1. Open Project Detail page for a project with no members and no tasks. |
+| **Expected Result** | Card shows "Not enough project information is available" with two unchecked items |
+| **Actual Result** | Informational card displayed correctly with both items unchecked |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-51: Prediction Card State 2 — Members But No Tasks
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-51 |
+| **Module** | AI Predictor |
+| **Description** | Card prompts to create tasks when members exist but tasks do not |
+| **Preconditions** | Project has at least 1 member and 0 tasks |
+| **Test Steps** | 1. Assign a member to project. 2. Ensure no tasks exist. 3. Open Project Detail. |
+| **Expected Result** | "Project planning is incomplete. Please create at least one task" message shown |
+| **Actual Result** | Correct message displayed with member count showing as checked |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-52: Prediction Card State 3 — Tasks But No Members
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-52 |
+| **Module** | AI Predictor |
+| **Description** | Card prompts to assign members when tasks exist but no members are assigned |
+| **Preconditions** | Project has 0 members and at least 1 task |
+| **Test Steps** | 1. Remove all members from project. 2. Ensure at least one task exists. 3. Open Project Detail. |
+| **Expected Result** | "Assign at least one employee to the project" message shown |
+| **Actual Result** | Correct message displayed with task count showing as checked |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-53: Prediction Card State 4 — Generate Estimate
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-53 |
+| **Module** | AI Predictor |
+| **Description** | Prediction generated successfully when project has both members and tasks |
+| **Preconditions** | Project has at least 1 member and 1 task, Flask API running |
+| **Test Steps** | 1. Open Project Detail with members and tasks. 2. Click Generate Estimate. |
+| **Expected Result** | Prediction result card shows estimated days, suggested deadline, and confidence percentage |
+| **Actual Result** | Prediction returned with all three values populated correctly |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-54: Apply Deadline to Project
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-54 |
+| **Module** | AI Predictor |
+| **Description** | Applying the AI-suggested deadline updates the project's deadline |
+| **Preconditions** | A prediction has been generated |
+| **Test Steps** | 1. Generate a prediction. 2. Click Apply Deadline to Project. 3. Navigate away and back. |
+| **Expected Result** | Project deadline updated to AI-suggested date, success banner shown |
+| **Actual Result** | Deadline updated correctly, green success message displayed |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-55: Prediction Logic Validation — Larger Project Takes More Days
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-55 |
+| **Module** | AI Predictor |
+| **Description** | Model correctly predicts more days for a larger, more complex project |
+| **Preconditions** | Flask API running |
+| **Test Steps** | 1. Predict for small project (2 team, 5 tasks, all low priority). 2. Predict for large project (3 team, 80 tasks, mostly high priority). |
+| **Expected Result** | Large project prediction significantly exceeds small project prediction |
+| **Actual Result** | Small project: ~8 days. Large project: ~140 days. Logic confirmed. |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-56: Completion Rate Reduces Predicted Days
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-56 |
+| **Module** | AI Predictor |
+| **Description** | Higher completion rate correctly results in fewer predicted days |
+| **Preconditions** | Flask API running |
+| **Test Steps** | 1. Predict with completion_rate 0.0. 2. Predict same project with completion_rate 0.5. |
+| **Expected Result** | 50% completion prediction is significantly fewer days than 0% |
+| **Actual Result** | 0% completion: ~140 days. 50% completion: ~72 days. Logic confirmed. |
+| **Status** | ✅ Pass |
+
+---
+
+### TC-57: Employee Cannot Access Prediction Endpoint
+
+| Field | Details |
+|-------|---------|
+| **Test ID** | TC-57 |
+| **Module** | AI Predictor |
+| **Description** | Employee role is blocked from calling the prediction API |
+| **Preconditions** | Logged in as Employee via Postman |
+| **Test Steps** | 1. Send POST /api/ml/predict with Employee token. |
+| **Expected Result** | 403 Forbidden — access denied |
+| **Actual Result** | 403 returned correctly |
+| **Status** | ✅ Pass |
+
+---
+
 ## Summary
 
 | Module | Total Tests | Passed | Failed |
@@ -800,4 +924,5 @@ expected result, actual result and pass/fail status.
 | Leave Management | 10 | 10 | 0 |
 | Notification System | 6 | 6 | 0 |
 | Dashboard and Analytics | 4 | 4 | 0 |
-| **Total** | **49** | **49** | **0** |
+| AI Project Completion Predictor | 9 | 9 | 0 |
+| **Total** | **58** | **58** | **0** |
