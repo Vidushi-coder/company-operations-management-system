@@ -43,7 +43,6 @@ const applyLeave = async (req, res) => {
     res.status(201).json({ message: 'Leave request submitted successfully', leave: newLeave });
 
     // Notify all admins about the new leave request
-    // Notify all admins about new leave request
     try {
       await notifyAllAdmins(
         'Leave Requested',
@@ -55,6 +54,20 @@ const applyLeave = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
+  }
+
+  // Notify all managers about new leave request
+  try {
+    const managerUsers = await User.find({ role: 'Manager' });
+    for (const manager of managerUsers) {
+      await createNotification(
+        manager._id,
+        'Leave Requested',
+        `${employee.name} has submitted a ${leaveType} request`
+      );
+    }
+  } catch (err) {
+    console.error('Manager notification error:', err.message);
   }
 };
 
