@@ -16,6 +16,7 @@ access control system.
 |-------|-----|
 | **Frontend** | https://company-ops-management.vercel.app/ |
 | **Backend API** | https://coms-backend-2xvx.onrender.com |
+| **ML Prediction API** | https://coms-ml-api.onrender.com/ |
 
 > **Note:** The backend is hosted on Render's free tier and may take
 > 30-60 seconds to respond on the first request after a period of
@@ -196,6 +197,18 @@ npm run dev
 ```
 
 The frontend runs on `http://localhost:5173`
+
+---
+
+### ML Service Setup (Optional — for AI Predictor feature)
+
+```bash
+cd ml/api
+pip install -r requirements.txt
+python app.py
+```
+
+The Flask ML API runs on `http://localhost:5001`
 
 ---
 
