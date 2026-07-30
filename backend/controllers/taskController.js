@@ -133,13 +133,6 @@ const updateTask = async (req, res) => {
       task.status = req.body.status;
       await task.save();
 
-    }
-    // Manager can only fully edit tasks they created
-    else if (req.user.role === 'Manager' &&
-      task.createdBy.toString() !== req.user.id) {
-      return res.status(403).json({
-        message: 'Access denied. You can only edit tasks you created.'
-      });
     } else {
       const allowedFields = ['title', 'description', 'priority', 'status', 'projectId', 'assignedTo', 'dueDate'];
 
