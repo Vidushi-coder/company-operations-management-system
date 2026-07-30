@@ -567,3 +567,77 @@ data-driven deadline estimation on the Project Detail page for Admin and
 Manager roles, powered by a Random Forest model trained on 500 synthetic
 project records. The application is now feature-complete and ready for
 final testing, deployment of the ML service, and evaluation preparation.
+
+# Week 11 Progress Report
+
+## Duration: 27 July 2026 – 30 July 2026
+
+### Objectives
+
+The objective of this final week was to complete the deployment of
+all application components including the Flask ML microservice,
+perform final testing across the entire live deployed application,
+resolve any remaining issues identified during deployment, and
+prepare the project for evaluation and handover.
+
+### Activities Performed
+
+#### ML Service Deployment
+
+* Prepared the Flask ML microservice for production deployment by
+  adding gunicorn as the production WSGI server.
+* Updated the Flask application to use Render's dynamic PORT
+  environment variable.
+* Committed the trained model file and deployment configuration to
+  the GitHub repository.
+* Deployed the Flask prediction service to Render as a separate
+  web service running Python 3.
+* Connected the deployed Flask service to the Express backend by
+  configuring the FLASK_URL environment variable on Render.
+* Verified the complete live prediction chain from Vercel frontend
+  through Render Express backend to Render Flask service.
+
+#### Final Testing and Bug Fixes
+
+* Conducted a full regression pass across all modules on the live
+  deployed application across all three user roles.
+* Fixed the "Generate Estimate" error message on the deployed app
+  to show a clear, professional message when the ML service is
+  warming up from a cold start.
+* Fixed the deadline comparison logic to hide the Apply Deadline
+  button when the current project deadline already matches the
+  AI-suggested deadline.
+* Fixed the project refresh after applying an AI-suggested deadline
+  so the deadline comparison updates immediately without requiring
+  page navigation.
+* Added admin notifications for leave requests, task creation and
+  project creation so the Admin notification page is populated
+  with relevant system events.
+* Documented all known limitations of the ML predictor including
+  reduced granularity for very small projects and deterministic
+  behavior on repeated predictions with unchanged inputs.
+
+#### Documentation and Presentation Preparation
+
+* Updated README with all three live deployment URLs.
+* Updated ml-feature.md with actual model performance results
+  from training output (R² 0.9224, MAE 6.37 days, 90.5%
+  confidence).
+* Completed final review of all documentation files.
+
+### Deliverables Completed
+
+* Flask ML Service Deployed on Render
+* Complete Live Application (Frontend, Backend, ML Service)
+* Final Bug Fixes Across All Modules
+* Admin Notification System for Key Events
+* Complete Documentation Suite
+
+### Outcome
+
+By the end of Week 11, the Company Operations Management System
+was fully deployed across three platforms — Vercel for the React
+frontend, Render for the Node.js backend, and Render for the
+Flask ML microservice. All seven core modules are functional and
+the AI-Assisted Project Completion Predictor is live and
+accessible on the deployed application.
