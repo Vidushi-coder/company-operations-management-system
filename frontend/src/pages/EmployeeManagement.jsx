@@ -105,6 +105,7 @@ function EmployeeManagement() {
           <option value="HR">HR</option>
           <option value="Finance">Finance</option>
           <option value="Marketing">Marketing</option>
+          <option value="Management">Management</option>
         </select>
 
         <select

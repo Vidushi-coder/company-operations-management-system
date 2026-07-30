@@ -35,6 +35,15 @@ Responsible for:
 * Applying for leave
 * Viewing personal information
 
+### Manager
+
+Responsible for:
+
+* Creating and managing projects
+* Creating and assigning tasks
+* Approving or rejecting employee leave requests
+* Monitoring team progress
+
 ---
 
 ## Functional Requirements
@@ -84,6 +93,23 @@ Responsible for:
 * Display task summaries
 * Display leave summaries
 
+### Notification System Module
+
+* Automatic notifications on task assignment
+* Automatic notifications on project member assignment
+* Automatic notifications on leave approval or rejection
+* Automatic notifications to Admin and Manager on leave submission
+* Mark notification as read
+* Mark all notifications as read
+* Delete notification
+
+### AI Project Completion Predictor Module
+
+* Generate estimated completion time based on project metrics
+* Display confidence percentage per prediction
+* Suggest deadline date based on prediction
+* Apply AI-suggested deadline directly to project
+
 ---
 
 ## Non-Functional Requirements
@@ -128,6 +154,15 @@ Responsible for:
 
 ---
 
+## Future Enhancements
+
+* Clickable dashboard summary cards navigating to relevant modules
+* Data export and reporting module
+* Real-time WebSocket notifications instead of polling
+* Training the ML model on real historical project data
+
+---
+
 ## Current Phase
 
-Requirement Analysis and Project Planning
+Completed — Deployed to Production

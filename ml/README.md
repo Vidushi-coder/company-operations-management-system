@@ -11,7 +11,7 @@ ml/
 │      └── project_data.csv
 │
 ├── model/
-│      └── project_completion_model.pkl
+│      └── model.pkl
 │
 ├── api/
 |    └── app.py

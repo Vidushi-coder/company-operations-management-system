@@ -153,11 +153,15 @@ scenarios to ensure the model generalizes well.
 
 ---
 
-### Regenerate Estimate
-Clicking Regenerate recalculates the prediction using the current
-project metrics. If no project data has changed (team size, task count,
-priorities, or completion rate), the result will be identical since
-the Random Forest model is deterministic for the same input values.
+## Model Performance Results
+
+| Metric | Value |
+|--------|-------|
+| R² Score | 0.9224 |
+| Mean Absolute Error | 6.37 days |
+| Model Confidence | 90.5% |
+| Training Samples | 400 |
+| Test Samples | 100 |
 
 ---
 
@@ -170,3 +174,9 @@ occurs because the Random Forest decision trees group these small
 values into the same leaf nodes during training. The model is most
 accurate for projects with 3+ members and 5+ tasks, which reflects
 realistic organizational project scenarios.
+
+### Regenerate Estimate
+Clicking Regenerate recalculates the prediction using the current
+project metrics. If no project data has changed (team size, task count,
+priorities, or completion rate), the result will be identical since
+the Random Forest model is deterministic for the same input values.

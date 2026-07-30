@@ -924,5 +924,5 @@ expected result, actual result and pass/fail status.
 | Leave Management | 10 | 10 | 0 |
 | Notification System | 6 | 6 | 0 |
 | Dashboard and Analytics | 4 | 4 | 0 |
-| AI Project Completion Predictor | 9 | 9 | 0 |
-| **Total** | **58** | **58** | **0** |
+| AI Project Completion Predictor | 8 | 8 | 0 |
+| **Total** | **57** | **57** | **0** |

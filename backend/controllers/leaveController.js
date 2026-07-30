@@ -52,22 +52,27 @@ const applyLeave = async (req, res) => {
       console.error('Admin notification error:', err.message);
     }
 
+    // Notify all managers only if applicant is an Employee
+    try {
+      const applicantUser = await require('../models/User')
+        .findById(employee.userId);
+      if (applicantUser?.role === 'Employee') {
+        const managerUsers = await require('../models/User')
+          .find({ role: 'Manager' });
+        for (const manager of managerUsers) {
+          await createNotification(
+            manager._id,
+            'Leave Requested',
+            `${employee.name} has submitted a ${leaveType} request`
+          );
+        }
+      }
+    } catch (err) {
+      console.error('Manager notification error:', err.message);
+    }
+
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
-  }
-
-  // Notify all managers about new leave request
-  try {
-    const managerUsers = await User.find({ role: 'Manager' });
-    for (const manager of managerUsers) {
-      await createNotification(
-        manager._id,
-        'Leave Requested',
-        `${employee.name} has submitted a ${leaveType} request`
-      );
-    }
-  } catch (err) {
-    console.error('Manager notification error:', err.message);
   }
 };
 
