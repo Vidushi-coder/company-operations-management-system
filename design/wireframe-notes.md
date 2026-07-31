@@ -1,9 +1,9 @@
 # Wireframe Notes
 
-**Project Name:** Company Operations Management System  
-**Author:** Vidushi Gupta  
-**Last Updated:** June 2025  
-**Purpose:** Describe the layout and components of each page in plain text before any visual design or coding begins.  
+**Project Name:** Company Operations Management System    
+**Author:** Vidushi Gupta    
+**Last Updated:** June 2025    
+**Purpose:** Describe the layout and components of each page in plain text before any visual design or coding begins.    
 
 ---
 
@@ -543,4 +543,4 @@
 
 **Notes:**
 - Not visible to Employees, enforced both in the UI and at the backend route
-- First request after Render idle time may take 30-60 seconds (cold start) — consider a loading state that accounts for this                                                                                                                                                                                                                                                                                                                                       
+- First request after Render idle time may take 30-60 seconds (cold start) — consider a loading state that accounts for this.
