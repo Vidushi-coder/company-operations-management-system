@@ -2,7 +2,7 @@
 
 **Project Name:** Company Operations Management System  
 **Author:** Vidushi Gupta  
-**Last Updated:** June 2026  
+**Last Updated:** July 2026  
 **Purpose:** Track weekly progress, key decisions, and major milestones across the project timeline.  
 
 ## Duration: 08 June 2026 – 14 June 2026

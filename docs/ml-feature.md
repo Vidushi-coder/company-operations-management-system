@@ -9,8 +9,6 @@
 
 ## Problem Statement
 
-## Problem Statement
-
 The Company Operations Management System enables project managers to
 create projects, assign employees, and manage project tasks efficiently.
 However, project deadlines are still determined manually based on
@@ -31,8 +29,8 @@ As an enhancement to the existing Project Management module, an
 AI-assisted Project Completion Predictor is introduced on the Project
 Detail page.
 
-The predictor analyzes the current state of a project—including team
-size, task count, priority distribution, and completion progress—to
+The predictor analyzes the current state of a project — including team
+size, task count, priority distribution, and completion progress — to
 estimate the remaining project duration and recommend a suitable
 completion deadline.
 
@@ -42,6 +40,12 @@ completion deadline.
 
 The prediction card appears on the **Project Detail page** for
 Admin and Manager roles only. It is not visible to Employees.
+
+This restriction is enforced at two layers, consistent with the rest of
+the system: the card is hidden in the UI for Employees, and the backend
+route itself is protected with `authorizeRoles('Admin', 'Manager')` —
+so the restriction holds even if someone attempts to call the API
+directly.
 
 The card has four progressive states based on available project data:
 
@@ -57,11 +61,19 @@ Prompts the manager to assign at least one team member.
 
 ### State 4 — Ready for Prediction (members ≥ 1, tasks ≥ 1)
 Shows project metrics and a Generate Estimate button.
-On click, calls the Flask prediction API and displays results:
+On click, calls the prediction API and displays results:
 - Estimated duration in days
 - Suggested deadline date
 - Confidence percentage
 - Apply Deadline button (updates the project's deadline)
+
+**Deadline comparison:** once a prediction is generated, the suggested
+deadline is compared against the project's current deadline. A green
+message is shown if they already match; a yellow warning is shown if
+they differ. The Apply Deadline button is hidden automatically when no
+change is needed. Clicking Apply Deadline calls `PUT /api/projects/:id`
+with the new deadline and triggers a refresh of the Project Detail page
+so the updated comparison is reflected immediately.
 
 ---
 
@@ -75,6 +87,11 @@ On click, calls the Flask prediction API and displays results:
 | medium_priority_count | Number of Medium priority tasks |
 | low_priority_count | Number of Low priority tasks |
 | completion_rate | Proportion of tasks already marked Done |
+
+**Input validation:** the API requires all six fields to be present, and
+rejects the request with a 400 error if `high_priority_count +
+medium_priority_count + low_priority_count` does not equal `task_count`,
+or if `completion_rate` falls outside the 0–1 range.
 
 ---
 
@@ -91,11 +108,18 @@ The suggested deadline is calculated as:
 Today's Date + Predicted Days
 ```
 
+The Express layer combines all three values — `predicted_days`,
+`confidence`, and the calculated `suggested_deadline` — into a single
+response returned to the frontend.
+
 ---
 
 ## Algorithm
 
 **Random Forest Regressor** from scikit-learn.
+
+**Configuration:** `n_estimators=100`, `max_depth=10`,
+`min_samples_split=5`, `min_samples_leaf=2`, `random_state=42`
 
 Chosen because:
 - Handles non-linear relationships between features well
@@ -110,7 +134,7 @@ Chosen because:
 
 ```
 React Frontend (Project Detail Page)
-↓ POST /api/predict
+↓ POST /api/ml/predict
 Node.js Backend (Express)
 ↓ POST /predict
 Python Flask Microservice
@@ -123,12 +147,20 @@ React Frontend (displays result)
 The Flask service is kept completely separate from the Node.js backend.
 Node.js acts as a proxy — the frontend never calls Flask directly.
 
+**Cold start behavior:** the Flask service is hosted on Render's free
+tier and spins down after ~15 minutes of inactivity, causing a 30-60
+second delay on the first prediction request after idle time. If the
+Flask service is unreachable, Express catches the resulting
+`ECONNREFUSED` error and returns a 503 to the frontend rather than
+crashing or hanging indefinitely. Both Render services should be warmed
+up in advance of a live demonstration.
+
 ---
 
 ## Why a Synthetic Dataset
 
 Since COMS is a new application with no real historical project completion
-data, the model will be trained on a carefully designed synthetic dataset
+data, the model is trained on a carefully designed synthetic dataset
 that encodes realistic domain knowledge:
 
 - More tasks → more days
@@ -137,7 +169,7 @@ per task
 - Higher proportion of High priority tasks → more complexity → more days
 - Higher completion rate → fewer remaining days
 
-The synthetic data will have 500 rows covering a wide range of project
+The synthetic data has 500 rows covering a wide range of project
 scenarios to ensure the model generalizes well.
 
 ---
@@ -180,3 +212,9 @@ Clicking Regenerate recalculates the prediction using the current
 project metrics. If no project data has changed (team size, task count,
 priorities, or completion rate), the result will be identical since
 the Random Forest model is deterministic for the same input values.
+
+### Cold Start Delay
+Because the Flask microservice runs on Render's free tier, the first
+prediction request after a period of inactivity can take 30-60 seconds
+to return, independent of model performance. This is an infrastructure
+limitation, not a model limitation.

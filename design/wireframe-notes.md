@@ -42,24 +42,25 @@
 
 ---
 
-## 2. Dashboard
+## 2. Dashboard (Initial Concept)
 
 **Layout:**
 
 ```
-+-------------------+------------------------------------------+
-|                   |   TOP NAVBAR                             |
-|   SIDEBAR NAV     |   [ App Name ]        [ User | Logout ]  |
-|                   +------------+------------+----------------+
-|   - Dashboard     |   CARD 1   |   CARD 2   |   CARD 3       |
-|   - Employees     |            |            |                |
-|   - Projects      +------------+------------+----------------+
-|   - Tasks         |                                          |
-|   - Leave         |   MAIN CONTENT AREA                      |
-+-------------------+------------------------------------------+
++--------------------------+------------------------------------------+
+|                          |   TOP NAVBAR                             |
+|   SIDEBAR NAV            |   [ App Name ]        [ User | Logout ]  |
+|                          +------------+------------+----------------+
+|   - Dashboard            |   CARD 1   |   CARD 2   |   CARD 3       |
+|   - Employees            |            |            |                |
+|   - Projects             +------------+------------+----------------+
+|   - Tasks                |                                          |
+|   - Leave                |   MAIN CONTENT AREA                      |
+|   - Notification         |   MAIN CONTENT AREA                      |
++--------------------------+------------------------------------------+
 ```
 
-**Summary Cards (content varies by role):**
+**Initial Summary Cards concept (content varies by role):**
 
 | Summary Card             | Admin | Manager | Employee |
 |--------------------------|-------|---------|----------|
@@ -70,9 +71,18 @@
 | My Pending Leave         | ❌    | ❌     | ✅       |
 | Unread Notifications     | ✅    | ✅     | ✅       |
 
+> **Note:** These cards were refined during implementation to be more
+> actionable. The final dashboard cards are: **Admin** — Overdue Tasks
+> and Projects Near Deadline (risk indicators), in addition to the
+> counts above. **Manager** — Team Members and Tasks Assigned Today,
+> plus their own Projects Near Deadline. **Employee** — Leave Balance
+> (total days taken this year) rather than a simple pending count. See
+> `docs/system-overview.md` and the dashboard controller for the final
+> per-role stat definitions.
+
 **Components:**
 - Top navbar with app name on the left and logged-in user name with logout button on the right
-- Sidebar navigation on the left 
+- Sidebar navigation on the left
 - Summary stat cards displayed in a row at the top of the main content area
 - Recent activity table below the cards showing the latest system events
 
@@ -124,7 +134,7 @@
 - Email Address
 - Phone Number
 - Department
-- Role (Admin / Manager / Employee)
+- Role (**Manager / Employee only** — Admin is not a selectable option here; Admin accounts are created separately via direct registration and never receive an Employee profile)
 - Date of Joining
 - Password (set by Admin during creation)
 
@@ -137,9 +147,11 @@
 
 **Employee Profile Page contains:**
 - Personal details (name, email, phone, department, designation, role, joining date, status)
-- Assigned Projects (placeholder until Project Management module is built)
-- Task Summary (placeholder until Task Management module is built)
-- Leave Summary (placeholder until Leave Management module is built)
+- Assigned Projects — live data, fetched from the Project Management module
+- Task Summary — live data, fetched from the Task Management module
+- Leave Summary — live data, fetched from the Leave Management module
+
+(All three sections are fetched in parallel via `Promise.all` once the relevant modules exist — they are no longer placeholders in the finished application.)
 
 ---
 
@@ -167,16 +179,17 @@
 
 **Components:**
 - Search bar to search projects by name
-- Filter by Status: All / Active / Completed / On Hold
+- Filter by Status: All / Not Started / Active / Completed / On Hold
 - Create New Project button (visible to Admin and Manager only)
 - Project cards displayed in a grid layout
 - Each card shows: Project Name, Status badge, Deadline date, Number of assigned members, View button
 
 **Status Badge Colours:**
+- Not Started → Grey
 - Active → Green
 - On Hold → Yellow
 - Completed → Blue
-- Overdue → Red
+- Overdue → Red (computed client-side, not a stored status)
 
 **Project Detail Page Layout:**
 ```
@@ -193,6 +206,9 @@
 |                   +--------------------------------------------+
 |                   |  TASKS TABLE:                              |
 |                   |  Task Name | Assignee | Priority | Status  |
+|                   +--------------------------------------------+
+|                   |  AI COMPLETION PREDICTOR CARD               |
+|                   |  (see Section 9)                            |
 +-------------------+--------------------------------------------+
 ```
 
@@ -200,6 +216,7 @@
 - Clicking View on a project card opens the Project Detail page
 - All users can view projects they are assigned to
 - Only Admin and Manager can create, edit, or delete projects
+- Admin and Manager also see the AI Completion Predictor card on this page (see Section 9); it is not visible to Employees
 
 ---
 
@@ -245,9 +262,9 @@
 - Created date and due date
 
 **Notes:**
-- Employees can only see tasks assigned to them
-- Managers and Admin can see all tasks under their projects
-- Status can be updated by the assigned employee or manager
+- Employees can only see tasks assigned to them, and can only update the status field on their own tasks
+- Managers and Admin can see all tasks and can edit any field
+- Kanban columns are filtered client-side from a single fetched task list — there is no separate API call per column
 
 ---
 
@@ -300,8 +317,9 @@
 
 **Notes:**
 - Employees cannot see other employees' leave records
-- Managers can approve or reject leave for their team members
-- Admin can approve or reject all leave requests across the organization
+- The system has no formal manager-to-employee reporting hierarchy, so a Manager can approve or reject leave for any Employee (not just a specific "team") — a Manager is blocked only from approving their own leave or another Manager's leave
+- Admin can approve or reject any leave request, provided the applicant has an Employee profile
+- Overlapping leave requests (same employee, conflicting Pending/Approved dates) are blocked at submission
 
 ---
 
@@ -350,7 +368,7 @@
 ```
 
 **Components:**
-- Bell icon in the top navbar with a badge showing unread notification count
+- Bell icon in the top navbar with a badge showing unread notification count (polls every 30 seconds)
 - Dropdown panel appears when the bell icon is clicked
 - Each notification shows: message, type indicator colour, and time ago
 - Mark as read on click (notification becomes lighter/grey)
@@ -361,6 +379,7 @@
 - Leave Approved → Green
 - Leave Rejected → Red
 - Project Assignment → Purple
+- Leave Requested → Orange (sent to Admins, and to Managers when the applicant is an Employee)
 
 **Full Notifications Page Layout:**
 
@@ -412,9 +431,9 @@
 
 |   - Dashboard     |  CARD 1  |  CARD 2  |  CARD 3  | CARD 4  |
 
-|   - Projects      |  Active  |  My Tasks|  Pending | Unread  |
+|   - Projects      |  Active  |  My Tasks|  Leave   | Unread  |
 
-|   - Tasks         |  Projects|  Today   |  Leave   | Notif.  |
+|   - Tasks         |  Projects|  Today   |  Balance | Notif.  |
 
 |   - Leave         +----------+----------+----------+---------+
 
@@ -460,8 +479,7 @@
 **Components:**
 - Sidebar with only Employee relevant links — no Employees
 - Navbar with notification bell and user dropdown
-- Four summary cards: Active Projects, My Tasks Today, Pending Leave, 
-  Unread Notifications
+- Four summary cards: Active Projects, My Tasks Today, **Leave Balance (days taken this year)**, Unread Notifications
 - My Assigned Tasks section with priority badges and due dates
 - Profile Summary section with basic details and View Profile link
 - My Projects section showing assigned projects with status and deadline
@@ -471,3 +489,58 @@
 - All data shown is personal to the logged in employee only
 - Employee cannot see Employee Management in the sidebar
 - Sidebar has fewer links compared to Admin and Manager view
+- "Leave Balance" shows total days taken this calendar year, not days remaining — there is no configured annual allowance in the current system
+
+---
+
+## 9. AI Project Completion Predictor Card
+
+**Location:** Bottom of the Project Detail page (see Section 4), visible to Admin and Manager only.
+
+**Layout — State 4 (ready for prediction):**
+
+```
++--------------------------------------------------+
+|  AI Project Completion Predictor                  |
++--------------------------------------------------+
+|  Team Size: X     Tasks: X     Completion: X%    |
+|                                                    |
+|            [ Generate Estimate ]                  |
++--------------------------------------------------+
+```
+
+**Layout — after a prediction is generated:**
+
+```
++--------------------------------------------------+
+|  AI Project Completion Predictor                  |
++--------------------------------------------------+
+|  Predicted Duration:  XX days                     |
+|  Confidence:          XX%                         |
+|  Suggested Deadline:  DD/MM/YYYY                   |
+|                                                    |
+|  🟡 Suggested deadline differs from current        |
+|     deadline (or 🟢 Deadlines already match)       |
+|                                                    |
+|        [ Regenerate ]   [ Apply Deadline ]         |
++--------------------------------------------------+
+```
+
+(Apply Deadline is hidden automatically when the suggested and current deadlines already match.)
+
+**Components:**
+- Metrics summary (team size, task count, completion percentage)
+- Generate Estimate button
+- Result display: predicted days, confidence percentage, suggested deadline
+- Green/yellow comparison message against the current project deadline
+- Regenerate button (re-runs the prediction with current metrics)
+- Apply Deadline button (updates the project's deadline, hidden if no change is needed)
+
+**Other three states (informational only, no button):**
+- No members, no tasks → "Assign members and create tasks to generate a prediction"
+- Members but no tasks → "Create at least one task to generate a prediction"
+- Tasks but no members → "Assign at least one team member to generate a prediction"
+
+**Notes:**
+- Not visible to Employees, enforced both in the UI and at the backend route
+- First request after Render idle time may take 30-60 seconds (cold start) — consider a loading state that accounts for this                                                                                                                                                                                                                                                                                                                                       

@@ -8,9 +8,9 @@ Company Operations Management System
 
 ## Introduction
 
-The Company Operations Management System is intended to provide a centralized platform for managing organizational activities including employee records, projects, tasks, leave requests, and operational reporting.
+The Company Operations Management System is a centralized platform for managing organizational activities including employee records, projects, tasks, leave requests, notifications, operational analytics, and AI-assisted project completion prediction.
 
-The system will help streamline workflows and improve management efficiency across different departments.
+The system streamlines workflows and improves management efficiency across different departments through role-based access control and a shared, unified interface.
 
 ---
 
@@ -26,15 +26,6 @@ Responsible for:
 * Reviewing leave requests
 * Monitoring system activities
 
-### Employee
-
-Responsible for:
-
-* Viewing assigned tasks
-* Updating task status
-* Applying for leave
-* Viewing personal information
-
 ### Manager
 
 Responsible for:
@@ -43,6 +34,16 @@ Responsible for:
 * Creating and assigning tasks
 * Approving or rejecting employee leave requests
 * Monitoring team progress
+* Generating and reviewing AI-assisted project completion predictions
+
+### Employee
+
+Responsible for:
+
+* Viewing assigned tasks
+* Updating task status
+* Applying for leave
+* Viewing personal information
 
 ---
 
@@ -84,6 +85,7 @@ Responsible for:
 * Submit leave request
 * Approve leave request
 * Reject leave request
+* Cancel leave request
 * View leave history
 
 ### Dashboard Module
@@ -128,7 +130,6 @@ Responsible for:
 ### Usability
 
 * User-friendly interface
-* Responsive design
 
 ### Maintainability
 
@@ -148,6 +149,8 @@ Responsible for:
 * Low-Fidelity Wireframes
 * UI Design System
 * Source Code (Frontend and Backend)
+* ML Dataset and Trained Model
+* ML Feature Documentation
 * Test Cases Document
 * User Manual
 * Deployed Application
@@ -160,6 +163,8 @@ Responsible for:
 * Data export and reporting module
 * Real-time WebSocket notifications instead of polling
 * Training the ML model on real historical project data
+* Scope Manager project/task visibility to their own items only
+* Configurable annual leave balance per employee
 
 ---
 
